@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}
+	{% trans "Homepage" %}
+{% endblock title %}
+{% block content %}
+<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for item in items %}
+      <div class="carousel-item {% if forloop.first %} active {% endif %}">
+        <img src="{% static "img/musor-1200x400.jpg" %}" class="d-block w-100">
+        <div class="carousel-caption d-none d-md-block">
+          <h5 class=>{% trans "TrashCans" %} № {{item}}</h5>
+          <p>{% trans "MainBuyTrashCans" %}</p>
+        </div>
+        <a href="{% url "catalog:item_detail" item %}" class="stretched-link"></a>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock content %}

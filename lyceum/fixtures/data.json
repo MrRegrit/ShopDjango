@@ -1,0 +1,283 @@
+[
+{
+    "model": "catalog.tag",
+    "pk": 1,
+    "fields": {
+        "is_published": true,
+        "name": "teg",
+        "slug": "-",
+        "normalized_name": "teg"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 2,
+    "fields": {
+        "is_published": true,
+        "name": "tag1",
+        "slug": "1",
+        "normalized_name": "tag1"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 3,
+    "fields": {
+        "is_published": true,
+        "name": "tag2",
+        "slug": "2",
+        "normalized_name": "tag2"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 4,
+    "fields": {
+        "is_published": true,
+        "name": "tag3",
+        "slug": "3",
+        "normalized_name": "tag3"
+    }
+},
+{
+    "model": "catalog.tag",
+    "pk": 5,
+    "fields": {
+        "is_published": true,
+        "name": "тег5",
+        "slug": "tag5",
+        "normalized_name": "teg5"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "is_published": true,
+        "name": "ррор",
+        "slug": "-",
+        "weight": 100,
+        "normalized_name": "rror"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "is_published": true,
+        "name": "Книги",
+        "slug": "books",
+        "weight": 20,
+        "normalized_name": "knigi"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "is_published": true,
+        "name": "Канц. товары",
+        "slug": "concelar_goods",
+        "weight": 5,
+        "normalized_name": "kantstovary"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 6,
+    "fields": {
+        "image": "catalog/main_images/Avatar_Icon_TheoParnell_400x400.png"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 7,
+    "fields": {
+        "image": "catalog/main_images/2325728.png"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 8,
+    "fields": {
+        "image": "catalog/main_images/icons8-trash-500.png"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 9,
+    "fields": {
+        "image": "catalog/main_images/outline-white-love-heart-vector-11563173114hgks8xuign.png"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 10,
+    "fields": {
+        "image": "catalog/main_images/FX-gbnz9k89_R1RhqSRBQ7xrVqFV7uBDHbuIiN64Vd_J3EOQeMmTx5NdTZ5xTt_bl0o70pNo.jpg"
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 1,
+    "fields": {
+        "is_published": true,
+        "name": "Ручка",
+        "text": "ручка крутая и очень удобная. превосходно!",
+        "category": 3,
+        "main_image": 10,
+        "tags": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 2,
+    "fields": {
+        "is_published": true,
+        "name": "Карандаш",
+        "text": "самый крутой карандаш. это роскошно!",
+        "category": 3,
+        "main_image": 9,
+        "tags": [
+            2,
+            3
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 3,
+    "fields": {
+        "is_published": true,
+        "name": "Война и мир Толстой",
+        "text": "Не читайте, это превосходно!",
+        "category": 2,
+        "main_image": 8,
+        "tags": [
+            4
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 4,
+    "fields": {
+        "is_published": true,
+        "name": "Лупа и Пупа Габова Р.",
+        "text": "Лучшая книга которую вы обязаны прочитать, она само совершенство! превосходно! Роскошно!",
+        "category": 2,
+        "main_image": 7,
+        "tags": [
+            2,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 5,
+    "fields": {
+        "is_published": true,
+        "name": "Ластик",
+        "text": "просто, роскошно, ластик",
+        "category": 3,
+        "main_image": 6,
+        "tags": [
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 1,
+    "fields": {
+        "item": 5,
+        "image": "catalog/images/Avatar_Icon_TheoParnell_400x400.png"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 2,
+    "fields": {
+        "item": 5,
+        "image": "catalog/images/4640ce518280885a19ade78b9bbd10c5.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 3,
+    "fields": {
+        "item": 5,
+        "image": "catalog/images/ФОН_РАБОЧЕГО_СТОЛА.png"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 4,
+    "fields": {
+        "item": 4,
+        "image": "catalog/images/image_7.png"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 5,
+    "fields": {
+        "item": 4,
+        "image": "catalog/images/PPC_Logo.png"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 6,
+    "fields": {
+        "item": 4,
+        "image": "catalog/images/image_6.png"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 7,
+    "fields": {
+        "item": 3,
+        "image": "catalog/images/image.bmp"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 8,
+    "fields": {
+        "item": 3,
+        "image": "catalog/images/login_registration-background.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 9,
+    "fields": {
+        "item": 2,
+        "image": "catalog/images/FX-gbnz9k89_R1RhqSRBQ7xrVqFV7uBDHbuIiN64Vd_J3EOQeMmTx5NdTZ5xTt_bl0o70pNo.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 10,
+    "fields": {
+        "item": 2,
+        "image": "catalog/images/second_bg.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 11,
+    "fields": {
+        "item": 1,
+        "image": "catalog/images/statement-image.png"
+    }
+}
+]
