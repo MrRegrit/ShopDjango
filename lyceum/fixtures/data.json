@@ -53,7 +53,7 @@
     "model": "catalog.category",
     "pk": 1,
     "fields": {
-        "is_published": true,
+        "is_published": false,
         "name": "ррор",
         "slug": "-",
         "weight": 100,
@@ -126,6 +126,7 @@
         "text": "ручка крутая и очень удобная. превосходно!",
         "category": 3,
         "main_image": 10,
+        "is_on_main": false,
         "tags": [
             2,
             3
@@ -141,6 +142,7 @@
         "text": "самый крутой карандаш. это роскошно!",
         "category": 3,
         "main_image": 9,
+        "is_on_main": false,
         "tags": [
             2,
             3
@@ -153,9 +155,10 @@
     "fields": {
         "is_published": true,
         "name": "Война и мир Толстой",
-        "text": "Не читайте, это превосходно!",
+        "text": "<p>Не читайте, это превосходно!</p>",
         "category": 2,
         "main_image": 8,
+        "is_on_main": true,
         "tags": [
             4
         ]
@@ -170,6 +173,7 @@
         "text": "Лучшая книга которую вы обязаны прочитать, она само совершенство! превосходно! Роскошно!",
         "category": 2,
         "main_image": 7,
+        "is_on_main": false,
         "tags": [
             2,
             3,
@@ -183,9 +187,10 @@
     "fields": {
         "is_published": true,
         "name": "Ластик",
-        "text": "просто, роскошно, ластик",
+        "text": "<p><strong>просто, роскошно, ластик</strong></p>",
         "category": 3,
         "main_image": 6,
+        "is_on_main": false,
         "tags": [
             3,
             4
