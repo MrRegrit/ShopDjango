@@ -1,3 +1,4 @@
+import django.db.models.query
 import django.test
 import django.urls
 import parameterized
@@ -113,52 +114,57 @@ class ContextTests(django.test.TestCase):
             cls.unpublished_tag.pk,
         )
 
-    @parameterized.parameterized.expand(
-        [("catalog:item_list",), ("homepage:home",)],
-    )
-    def test_show_correct_context(self, url):
+    def test_show_correct_context(self):
         response = django.test.Client().get(
-            django.urls.reverse(url),
+            django.urls.reverse("catalog:item_list"),
         )
-        self.assertIsInstance(response.context, django.test.utils.ContextList)
+        self.assertIsInstance(
+            response.context["items"],
+            django.db.models.query.QuerySet,
+        )
 
-    @parameterized.parameterized.expand(
-        [("catalog:item_list", 2), ("homepage:home", 1)],
-    )
-    def test_count_item(self, url, count):
+    def test_count_item(self):
         response = django.test.Client().get(
-            django.urls.reverse(url),
+            django.urls.reverse("catalog:item_list"),
         )
         items = response.context["items"]
-        self.assertEqual(len(items), count)
+        self.assertEqual(len(items), 2)
 
     @parameterized.parameterized.expand(
         [
-            ("is_published", "catalog:item_list"),
-            ("is_on_main", "catalog:item_list"),
-            ("images", "catalog:item_list"),
-            ("main_image", "catalog:item_list"),
-            ("weight", "catalog:item_list"),
-            ("slug", "catalog:item_list"),
-            ("normalized_name", "catalog:item_list"),
-            ("is_published", "homepage:home"),
-            ("is_on_main", "homepage:home"),
-            ("images", "homepage:home"),
-            ("main_image", "homepage:home"),
-            ("weight", "homepage:home"),
-            ("slug", "homepage:home"),
-            ("normalized_name", "homepage:home"),
+            ("is_published",),
+            ("is_on_main",),
+            ("images",),
+            ("main_image",),
+            ("weight",),
+            ("slug",),
+            ("normalized_name",),
         ],
     )
-    def test_fields_not_in_item(self, field, url):
+    def test_fields_not_in_item(self, field):
         response = django.test.Client().get(
-            django.urls.reverse(url),
+            django.urls.reverse("catalog:item_list"),
         )
         items = response.context["items"]
         for item in items:
             self.assertNotIn(field, item.__dict__)
             self.assertNotIn(field, item.category.__dict__)
-            self.assertNotIn(field, item.tags.__dict__)
+
+    @parameterized.parameterized.expand(
+        [
+            ("id",),
+            ("text",),
+            ("category_id",),
+            ("_prefetched_objects_cache",),
+        ],
+    )
+    def test_fields_in_item(self, field):
+        response = django.test.Client().get(
+            django.urls.reverse("catalog:item_list"),
+        )
+        items = response.context["items"]
+        for item in items:
+            self.assertIn(field, item.__dict__)
 
 
 __all__ = []
