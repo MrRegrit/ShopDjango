@@ -133,6 +133,9 @@ class ItemManager(django.db.models.Manager):
             .only("name", "text", "category__name")
         )
 
+    def on_main(self):
+        return self.published().filter(is_on_main=True)
+
 
 class Item(core.models.PublishedAndNameAbstractModel):
     objects = ItemManager()

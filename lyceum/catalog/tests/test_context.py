@@ -1,5 +1,6 @@
 import django.test
 import django.urls
+import parameterized
 
 import catalog.models
 
@@ -112,31 +113,52 @@ class ContextTests(django.test.TestCase):
             cls.unpublished_tag.pk,
         )
 
-    def test_catalog_show_correct_context(self):
+    @parameterized.parameterized.expand(
+        [("catalog:item_list",), ("homepage:home",)],
+    )
+    def test_show_correct_context(self, url):
         response = django.test.Client().get(
-            django.urls.reverse("catalog:item_list"),
+            django.urls.reverse(url),
         )
         self.assertIsInstance(response.context, django.test.utils.ContextList)
 
-    def test_catalog_count_item(self):
+    @parameterized.parameterized.expand(
+        [("catalog:item_list", 2), ("homepage:home", 1)],
+    )
+    def test_count_item(self, url, count):
         response = django.test.Client().get(
-            django.urls.reverse("catalog:item_list"),
+            django.urls.reverse(url),
         )
         items = response.context["items"]
-        self.assertEqual(items.count(), 2)
+        self.assertEqual(len(items), count)
 
-    def test_homepage_show_correct_context(self):
+    @parameterized.parameterized.expand(
+        [
+            ("is_published", "catalog:item_list"),
+            ("is_on_main", "catalog:item_list"),
+            ("images", "catalog:item_list"),
+            ("main_image", "catalog:item_list"),
+            ("weight", "catalog:item_list"),
+            ("slug", "catalog:item_list"),
+            ("normalized_name", "catalog:item_list"),
+            ("is_published", "homepage:home"),
+            ("is_on_main", "homepage:home"),
+            ("images", "homepage:home"),
+            ("main_image", "homepage:home"),
+            ("weight", "homepage:home"),
+            ("slug", "homepage:home"),
+            ("normalized_name", "homepage:home"),
+        ],
+    )
+    def test_fields_not_in_item(self, field, url):
         response = django.test.Client().get(
-            django.urls.reverse("homepage:home"),
-        )
-        self.assertIsInstance(response.context, django.test.utils.ContextList)
-
-    def test_homepage_count_item(self):
-        response = django.test.Client().get(
-            django.urls.reverse("homepage:home"),
+            django.urls.reverse(url),
         )
         items = response.context["items"]
-        self.assertEqual(len(items), 1)
+        for item in items:
+            self.assertNotIn(field, item.__dict__)
+            self.assertNotIn(field, item.category.__dict__)
+            self.assertNotIn(field, item.tags.__dict__)
 
 
 __all__ = []

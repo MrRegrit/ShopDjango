@@ -8,7 +8,7 @@ import catalog.models
 
 def home(request):
     template = "homepage/main.html"
-    items = catalog.models.Item.objects.published().filter(is_on_main=True)
+    items = catalog.models.Item.objects.on_main()
     context = {"items": items}
     return django.shortcuts.render(request, template, context)
 
