@@ -17,12 +17,20 @@ def item_detail(request, pk):
             catalog.models.Item.objects.filter(is_published=True)
             .select_related("category")
             .select_related("main_image")
-            .prefetch_related("tags")
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "tags",
+                    queryset=catalog.models.Tag.objects.filter(
+                        is_published=True,
+                    ).only(
+                        "name",
+                    ),
+                ),
+            )
             .only(
                 "name",
                 "text",
                 "category__name",
-                "tags__name",
                 "main_image__image",
             )
         ),

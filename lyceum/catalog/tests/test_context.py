@@ -136,7 +136,7 @@ class ContextTests(django.test.TestCase):
             django.urls.reverse("homepage:home"),
         )
         items = response.context["items"]
-        self.assertEqual(items.count(), 1)
+        self.assertEqual(len(items), 1)
 
 
 __all__ = []
