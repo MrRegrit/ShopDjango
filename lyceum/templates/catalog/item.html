@@ -23,7 +23,7 @@
     </div>
     </div>
         <p>
-        {% for image in images %}
+        {% for image in images.all %}
             <img src="{{ image.get_image_300x300.url }}" alt="">
         {% endfor %}
         </p>

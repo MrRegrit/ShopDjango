@@ -21,7 +21,6 @@ class Tag(core.models.PublishedAndNameAbstractModel):
         verbose_name="нормализованное имя",
         help_text="Это нормализованное имя, если вы это видите, "
         "значит что то не то)",
-        unique=True,
         editable=False,
     )
 
@@ -67,7 +66,6 @@ class Category(core.models.PublishedAndNameAbstractModel):
         verbose_name="нормализованное имя",
         help_text="Это нормализованное имя, "
         "если вы это видите, значит что то не то)",
-        unique=True,
         editable=False,
     )
 
