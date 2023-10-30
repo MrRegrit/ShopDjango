@@ -5,12 +5,12 @@ class PublishedAndNameAbstractModel(django.db.models.Model):
     is_published = django.db.models.BooleanField(
         default=True,
         verbose_name="опубликовано",
-        help_text="",
+        help_text="Поставьте галочку, если хотите опубликовать товар",
     )
     name = django.db.models.CharField(
         max_length=150,
         verbose_name="название",
-        help_text="",
+        help_text="Введите название товара. Максимум 150 символов",
         unique=True,
     )
 

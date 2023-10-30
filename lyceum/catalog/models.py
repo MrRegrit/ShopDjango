@@ -25,18 +25,20 @@ class Tag(core.models.PublishedAndNameAbstractModel):
         editable=False,
     )
 
-    class Meta:
-        verbose_name = "тег"
-        verbose_name_plural = "теги"
-
     def save(self, *args, **kwargs) -> None:
         normalized_name = catalog.validators.normalize_text(self.name)
         self.normalized_name = normalized_name
         return super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = "тег"
+        verbose_name_plural = "теги"
+
     def clean(self) -> None:
         normalized_name = catalog.validators.normalize_text(self.name)
-        if self.__class__.objects.filter(normalized_name=normalized_name):
+        if self.__class__.objects.filter(
+            normalized_name=normalized_name,
+        ).exclude(id=self.id):
             raise django.core.exceptions.ValidationError(
                 "ОбЪект с похожем именем уже существует!",
             )
@@ -80,7 +82,9 @@ class Category(core.models.PublishedAndNameAbstractModel):
 
     def clean(self):
         normalized_name = catalog.validators.normalize_text(self.name)
-        if self.__class__.objects.filter(normalized_name=normalized_name):
+        if self.__class__.objects.filter(
+            normalized_name=normalized_name,
+        ).exclude(id=self.id):
             raise django.core.exceptions.ValidationError(
                 "ОбЪект с похожем именем уже существует!",
             )
@@ -114,7 +118,26 @@ class MainImage(django.db.models.Model):
         return "Нет изображения"
 
 
+class ItemManager(django.db.models.Manager):
+    def published(self):
+        return (
+            self.get_queryset()
+            .filter(is_published=True, category__is_published=True)
+            .select_related("category")
+            .prefetch_related(
+                django.db.models.Prefetch(
+                    "tags",
+                    queryset=Tag.objects.filter(is_published=True).only(
+                        "name",
+                    ),
+                ),
+            )
+            .only("name", "text", "category__name")
+        )
+
+
 class Item(core.models.PublishedAndNameAbstractModel):
+    objects = ItemManager()
     text = ckeditor.fields.RichTextField(
         verbose_name="текст",
         help_text="Описание должно содержать слова "
@@ -129,12 +152,14 @@ class Item(core.models.PublishedAndNameAbstractModel):
         verbose_name="категория",
         help_text="Выберете одну категорию",
         related_name="items",
+        related_query_name="item",
     )
     tags = django.db.models.ManyToManyField(
         Tag,
         verbose_name="теги",
         help_text="Выберете теги.",
         related_name="items",
+        related_query_name="item",
     )
     main_image = django.db.models.OneToOneField(
         MainImage,
@@ -142,11 +167,19 @@ class Item(core.models.PublishedAndNameAbstractModel):
         blank=True,
         null=True,
         related_name="items",
+        related_query_name="item",
         verbose_name="главное изображение",
         help_text="Выберете главное изображение",
     )
+    is_on_main = django.db.models.BooleanField(
+        default=False,
+        verbose_name="на главной",
+        help_text="Поставьте галочку, "
+        "если хотите разместить товар на главной странице",
+    )
 
     class Meta:
+        ordering = ("name",)
         verbose_name = "товар"
         verbose_name_plural = "товары"
 
@@ -166,6 +199,7 @@ class Images(django.db.models.Model):
         Item,
         on_delete=django.db.models.CASCADE,
         related_name="images",
+        related_query_name="image",
         help_text="Выберете товар",
     )
     image = django.db.models.ImageField(
@@ -183,6 +217,14 @@ class Images(django.db.models.Model):
                 f'<img src="{self.image.url}" width="50">',
             )
         return "Нет изображения"
+
+    def get_image_300x300(self):
+        return sorl.thumbnail.get_thumbnail(
+            self.image,
+            "300x300",
+            crop="center",
+            quality=51,
+        )
 
 
 __all__ = ["Tag", "Category", "MainImage", "Item", "Images"]

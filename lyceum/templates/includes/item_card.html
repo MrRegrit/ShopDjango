@@ -1,0 +1,17 @@
+<div class="col">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ name }}</h5>
+            <p class="card-text">{{ text|truncatewords:10 }}</p>
+            <p>Категория: {{ category }}</p>
+            <p>
+                {% for tag in tags %}
+                    <span class="badge rounded-pill text-bg-light">
+                        {{ tag.name }}
+                    </span>
+                {% endfor %}
+            </p>
+            <a href="{% url "catalog:item_detail" id %}" class="stretched-link"></a>
+        </div>
+    </div>
+</div>

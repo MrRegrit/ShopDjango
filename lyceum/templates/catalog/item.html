@@ -1,8 +1,32 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block title %}
-	{% trans "TrashCans" %} №{{pk}}
+	 {{ item.name }}
 {% endblock %}
 {% block content %}
-<div class='text-center'>{% trans "TrashCans" %} №{{pk}}</div>
+    <div class="container">
+    <div class="row">
+    <div class="col">
+        <h2>Категория: {{ item.category.name }}</h2>
+        <h1>{{ item.name }}
+            {% for tag in item.tags.all %}
+                <span class="badge rounded-pill text-bg-light">
+                {{ tag.name }}
+                 </span>
+            {% endfor %}
+        </h1>
+
+    </div>
+    <div class="col">
+        <p>
+            <img src="{{ item.main_image.get_image_300x300.url }}" alt=""></p>
+    </div>
+    </div>
+        <p>
+        {% for image in images %}
+            <img src="{{ image.get_image_300x300.url }}" alt="">
+        {% endfor %}
+        </p>
+
+    </div>
 {% endblock content %}

@@ -3,12 +3,13 @@ import http
 import django.http
 import django.shortcuts
 
-import catalog.views
+import catalog.models
 
 
 def home(request):
     template = "homepage/main.html"
-    context = {"items": catalog.views.items}
+    items = catalog.models.Item.objects.published().filter(is_on_main=True)
+    context = {"items": items}
     return django.shortcuts.render(request, template, context)
 
 
