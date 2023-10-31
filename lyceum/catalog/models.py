@@ -186,8 +186,8 @@ class Item(core.models.PublishedAndNameAbstractModel):
         help_text="Поставьте галочку, "
         "если хотите разместить товар на главной странице",
     )
-    created_at = django.db.models.DateTimeField(auto_now_add=True)
-    updated_at = django.db.models.DateTimeField(auto_now=True)
+    created_at = django.db.models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = django.db.models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         ordering = ("name",)
