@@ -23,14 +23,17 @@ class Tag(core.models.PublishedAndNameAbstractModel):
         editable=False,
     )
 
+    class Meta:
+        verbose_name = "тег"
+        verbose_name_plural = "теги"
+
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs) -> None:
         normalized_name = catalog.validators.normalize_text(self.name)
         self.normalized_name = normalized_name
         return super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "тег"
-        verbose_name_plural = "теги"
 
     def clean(self) -> None:
         normalized_name = catalog.validators.normalize_text(self.name)
@@ -68,14 +71,17 @@ class Category(core.models.PublishedAndNameAbstractModel):
         editable=False,
     )
 
+    class Meta:
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
+
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
         normalized_name = catalog.validators.normalize_text(self.name)
         self.normalized_name = normalized_name
         return super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "категория"
-        verbose_name_plural = "категории"
 
     def clean(self):
         normalized_name = catalog.validators.normalize_text(self.name)
@@ -94,6 +100,9 @@ class MainImage(django.db.models.Model):
         upload_to="catalog/main_images",
         help_text="загрузите главное изображение",
     )
+
+    def __str__(self):
+        return self.image_tmb()
 
     class Meta:
         verbose_name = "главное изображение"
@@ -185,6 +194,9 @@ class Item(core.models.PublishedAndNameAbstractModel):
         verbose_name = "товар"
         verbose_name_plural = "товары"
 
+    def __str__(self):
+        return self.name
+
     def image_tmb(self):
         if self.main_image:
             return django.utils.html.mark_safe(
@@ -208,6 +220,9 @@ class Images(django.db.models.Model):
         upload_to="catalog/images",
         help_text="Загрузите изображения",
     )
+
+    def __str__(self):
+        return self.image_tmb()
 
     class Meta:
         verbose_name = "дополнительное изображение"

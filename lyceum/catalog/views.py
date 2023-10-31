@@ -60,9 +60,13 @@ def item_new(request):
         .order_by("?")[:5]
     )
     if my_ids:
-        items = catalog.models.Item.objects.filter(id__in=my_ids).order_by(
-            "category",
-            "name",
+        items = (
+            catalog.models.Item.objects.published()
+            .filter(id__in=my_ids)
+            .order_by(
+                "category",
+                "name",
+            )
         )
     else:
         items = None
@@ -79,9 +83,13 @@ def item_friday(request):
         .values_list("id", flat=True)[:5]
     )
     if my_ids:
-        items = catalog.models.Item.objects.filter(id__in=my_ids).order_by(
-            "category",
-            "name",
+        items = (
+            catalog.models.Item.objects.published()
+            .filter(id__in=my_ids)
+            .order_by(
+                "category",
+                "name",
+            )
         )
     else:
         items = None

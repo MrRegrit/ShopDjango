@@ -1,319 +1,261 @@
 [
 {
     "model": "catalog.tag",
-    "pk": 1,
-    "fields": {
-        "is_published": true,
-        "name": "teg",
-        "slug": "-",
-        "normalized_name": "teg"
-    }
-},
-{
-    "model": "catalog.tag",
-    "pk": 2,
-    "fields": {
-        "is_published": true,
-        "name": "tag1",
-        "slug": "1",
-        "normalized_name": "tag1"
-    }
-},
-{
-    "model": "catalog.tag",
-    "pk": 3,
-    "fields": {
-        "is_published": true,
-        "name": "tag2",
-        "slug": "2",
-        "normalized_name": "tag2"
-    }
-},
-{
-    "model": "catalog.tag",
-    "pk": 4,
-    "fields": {
-        "is_published": true,
-        "name": "tag3",
-        "slug": "3",
-        "normalized_name": "tag3"
-    }
-},
-{
-    "model": "catalog.tag",
-    "pk": 5,
-    "fields": {
-        "is_published": true,
-        "name": "тег5",
-        "slug": "tag5",
-        "normalized_name": "teg5"
-    }
-},
-{
-    "model": "catalog.category",
-    "pk": 1,
-    "fields": {
-        "is_published": false,
-        "name": "ррор",
-        "slug": "-",
-        "weight": 100,
-        "normalized_name": "rror"
-    }
-},
-{
-    "model": "catalog.category",
-    "pk": 2,
-    "fields": {
-        "is_published": true,
-        "name": "Книги",
-        "slug": "books",
-        "weight": 20,
-        "normalized_name": "knigi"
-    }
-},
-{
-    "model": "catalog.category",
-    "pk": 3,
-    "fields": {
-        "is_published": true,
-        "name": "Канц. товары",
-        "slug": "concelar_goods",
-        "weight": 5,
-        "normalized_name": "kantstovary"
-    }
-},
-{
-    "model": "catalog.mainimage",
     "pk": 6,
     "fields": {
-        "image": "catalog/main_images/Avatar_Icon_TheoParnell_400x400.png"
+        "is_published": true,
+        "name": "Женщина",
+        "slug": "women",
+        "normalized_name": "zhenschina"
     }
 },
 {
-    "model": "catalog.mainimage",
+    "model": "catalog.tag",
     "pk": 7,
     "fields": {
-        "image": "catalog/main_images/2325728.png"
+        "is_published": true,
+        "name": "Мусорки",
+        "slug": "trash",
+        "normalized_name": "musorki"
     }
 },
 {
-    "model": "catalog.mainimage",
+    "model": "catalog.tag",
     "pk": 8,
     "fields": {
-        "image": "catalog/main_images/icons8-trash-500.png"
+        "is_published": true,
+        "name": "Дизайн",
+        "slug": "design",
+        "normalized_name": "dizajn"
     }
 },
 {
-    "model": "catalog.mainimage",
+    "model": "catalog.tag",
     "pk": 9,
     "fields": {
-        "image": "catalog/main_images/outline-white-love-heart-vector-11563173114hgks8xuign.png"
+        "is_published": true,
+        "name": "Скрытность",
+        "slug": "hide",
+        "normalized_name": "skrytnost'"
     }
 },
 {
-    "model": "catalog.mainimage",
+    "model": "catalog.tag",
     "pk": 10,
     "fields": {
-        "image": "catalog/main_images/FX-gbnz9k89_R1RhqSRBQ7xrVqFV7uBDHbuIiN64Vd_J3EOQeMmTx5NdTZ5xTt_bl0o70pNo.jpg"
-    }
-},
-{
-    "model": "catalog.item",
-    "pk": 1,
-    "fields": {
         "is_published": true,
-        "name": "Ручка",
-        "text": "ручка крутая и очень удобная. превосходно!",
-        "category": 3,
-        "main_image": 10,
-        "is_on_main": false,
-        "created_at": "2023-10-31T07:31:23.844Z",
-        "updated_at": "2023-10-31T07:31:23.844Z",
-        "tags": [
-            2,
-            3
-        ]
+        "name": "Партизан",
+        "slug": "partisan",
+        "normalized_name": "partizan"
     }
 },
 {
-    "model": "catalog.item",
-    "pk": 2,
-    "fields": {
-        "is_published": true,
-        "name": "Карандаш",
-        "text": "самый крутой карандаш. это роскошно!",
-        "category": 3,
-        "main_image": 9,
-        "is_on_main": false,
-        "created_at": "2023-10-22T07:31:23.844Z",
-        "updated_at": "2023-10-22T07:31:23.844Z",
-        "tags": [
-            2,
-            3
-        ]
-    }
-},
-{
-    "model": "catalog.item",
-    "pk": 3,
-    "fields": {
-        "is_published": true,
-        "name": "Война и мир Толстой",
-        "text": "<p><em><strong>Не читайте, это превосходно!</strong></em></p>",
-        "category": 2,
-        "main_image": 8,
-        "is_on_main": true,
-        "created_at": "2023-10-31T07:31:23.844Z",
-        "updated_at": "2023-10-31T07:33:02.844Z",
-        "tags": [
-            4
-        ]
-    }
-},
-{
-    "model": "catalog.item",
-    "pk": 4,
-    "fields": {
-        "is_published": true,
-        "name": "Лупа и Пупа Габова Р.",
-        "text": "Лучшая книга которую вы обязаны прочитать, она само совершенство! превосходно! Роскошно!",
-        "category": 2,
-        "main_image": 7,
-        "is_on_main": false,
-        "created_at": "2023-10-31T07:31:23.844Z",
-        "updated_at": "2023-10-31T07:31:23.844Z",
-        "tags": [
-            2,
-            3,
-            4
-        ]
-    }
-},
-{
-    "model": "catalog.item",
-    "pk": 5,
-    "fields": {
-        "is_published": true,
-        "name": "Ластик",
-        "text": "<p><strong>просто, роскошно, ластик</strong></p>",
-        "category": 3,
-        "main_image": 6,
-        "is_on_main": false,
-        "created_at": "2023-10-31T07:31:23.844Z",
-        "updated_at": "2023-10-31T07:31:23.844Z",
-        "tags": [
-            3,
-            4
-        ]
-    }
-},
-{
-    "model": "catalog.item",
-    "pk": 6,
-    "fields": {
-        "is_published": true,
-        "name": "Тест",
-        "text": "<p>Превосходно текст</p>",
-        "category": 1,
-        "main_image": null,
-        "is_on_main": false,
-        "created_at": "2023-10-31T07:33:54.633Z",
-        "updated_at": "2023-10-31T07:33:54.633Z",
-        "tags": [
-            1,
-            2,
-            3,
-            4,
-            5
-        ]
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 1,
-    "fields": {
-        "item": 5,
-        "image": "catalog/images/Avatar_Icon_TheoParnell_400x400.png"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 2,
-    "fields": {
-        "item": 5,
-        "image": "catalog/images/4640ce518280885a19ade78b9bbd10c5.jpg"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 3,
-    "fields": {
-        "item": 5,
-        "image": "catalog/images/ФОН_РАБОЧЕГО_СТОЛА.png"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 4,
-    "fields": {
-        "item": 4,
-        "image": "catalog/images/image_7.png"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 5,
-    "fields": {
-        "item": 4,
-        "image": "catalog/images/PPC_Logo.png"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 6,
-    "fields": {
-        "item": 4,
-        "image": "catalog/images/image_6.png"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 7,
-    "fields": {
-        "item": 3,
-        "image": "catalog/images/image.bmp"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 8,
-    "fields": {
-        "item": 3,
-        "image": "catalog/images/login_registration-background.jpg"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 9,
-    "fields": {
-        "item": 2,
-        "image": "catalog/images/FX-gbnz9k89_R1RhqSRBQ7xrVqFV7uBDHbuIiN64Vd_J3EOQeMmTx5NdTZ5xTt_bl0o70pNo.jpg"
-    }
-},
-{
-    "model": "catalog.images",
-    "pk": 10,
-    "fields": {
-        "item": 2,
-        "image": "catalog/images/second_bg.jpg"
-    }
-},
-{
-    "model": "catalog.images",
+    "model": "catalog.tag",
     "pk": 11,
     "fields": {
-        "item": 1,
-        "image": "catalog/images/statement-image.png"
+        "is_published": true,
+        "name": "Базовые",
+        "slug": "base",
+        "normalized_name": "bazovye"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+        "is_published": true,
+        "name": "Разноцветные мусорки",
+        "slug": "color-trash",
+        "weight": 50,
+        "normalized_name": "raznotsvetnyemusorki"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+        "is_published": true,
+        "name": "Зеленые мусорки",
+        "slug": "green-trash",
+        "weight": 100,
+        "normalized_name": "zelenyemusorki"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 7,
+    "fields": {
+        "is_published": true,
+        "name": "Крутые мусорки",
+        "slug": "cool-trash",
+        "weight": 2,
+        "normalized_name": "krutyemusorki"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 11,
+    "fields": {
+        "image": "catalog/main_images/lc4TkYkudZY.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 12,
+    "fields": {
+        "image": "catalog/main_images/MolokClassic_1.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 13,
+    "fields": {
+        "image": "catalog/main_images/IMG_8193mmm.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 14,
+    "fields": {
+        "image": "catalog/main_images/musornye-konteynery-2.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 15,
+    "fields": {
+        "image": "catalog/main_images/Мусорные-контейнеры-для-раздельного-сбора.jpg"
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 8,
+    "fields": {
+        "is_published": true,
+        "name": "Мусорки с женщиной",
+        "text": "<p><strong>Продаются мусорки!!</strong><br />\r\nЖенщина нет! Превосходно!</p>",
+        "category": 7,
+        "main_image": 11,
+        "is_on_main": true,
+        "created_at": "2023-10-31T11:22:13.474Z",
+        "updated_at": "2023-10-31T11:22:45.546Z",
+        "tags": [
+            6,
+            7
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 9,
+    "fields": {
+        "is_published": true,
+        "name": "Современные мусорки",
+        "text": "<p>Продаются очень классные современные мусорки!<br />\r\nЕсть фотка чертежа!<br />\r\nДаже Бог в шоке от их дизайна!!<br />\r\nРоскошно!!!</p>",
+        "category": 7,
+        "main_image": 12,
+        "is_on_main": true,
+        "created_at": "2023-10-31T11:25:16.059Z",
+        "updated_at": "2023-10-31T11:25:16.059Z",
+        "tags": [
+            7,
+            8
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 10,
+    "fields": {
+        "is_published": true,
+        "name": "Мусорки партизаны",
+        "text": "<p>Будьте осторожны!<br />\r\nЭти мусорки могут маскироваться под траву!!<br />\r\nПревосходно, как с точки зрения дизайна так и удобства использования в тылу у врагов</p>",
+        "category": 7,
+        "main_image": 13,
+        "is_on_main": false,
+        "created_at": "2023-10-31T11:28:06.849Z",
+        "updated_at": "2023-10-31T11:28:06.849Z",
+        "tags": [
+            7,
+            9,
+            10
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 11,
+    "fields": {
+        "is_published": true,
+        "name": "Зеленые мусорки",
+        "text": "<p>Стандартные зеленые мусорки! Удобно, <strong>дешево</strong>, роскошно, сердито!</p>",
+        "category": 6,
+        "main_image": 14,
+        "is_on_main": false,
+        "created_at": "2023-10-31T11:29:25.726Z",
+        "updated_at": "2023-10-31T11:29:25.726Z",
+        "tags": [
+            7,
+            11
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 12,
+    "fields": {
+        "is_published": true,
+        "name": "Раздельные мусорки",
+        "text": "<p>Лучшие за свою цену! <strong>Экологично! </strong>Превосходно!<br />\r\nЕсли вы за экологию и любите базу, то эти мусорки для вас</p>",
+        "category": 5,
+        "main_image": 15,
+        "is_on_main": false,
+        "created_at": "2023-10-31T11:30:54.664Z",
+        "updated_at": "2023-10-31T11:30:54.664Z",
+        "tags": [
+            7,
+            11
+        ]
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 12,
+    "fields": {
+        "item": 9,
+        "image": "catalog/images/1586870542_2020-04-14_16-22-22.jpeg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 13,
+    "fields": {
+        "item": 11,
+        "image": "catalog/images/1717458_ORIGINAL_1451314658.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 14,
+    "fields": {
+        "item": 11,
+        "image": "catalog/images/p642606.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 15,
+    "fields": {
+        "item": 12,
+        "image": "catalog/images/WhatsApp-Image-2020-09-14-at-15.32.32.jpg"
+    }
+},
+{
+    "model": "catalog.images",
+    "pk": 16,
+    "fields": {
+        "item": 12,
+        "image": "catalog/images/Outdoor-Plastic-Dustbin-100L-Recycling-Trash-Waste-Garbage-Bin-Container-_Suyeexh.jpg"
     }
 }
 ]
