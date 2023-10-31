@@ -11,4 +11,11 @@ urlpatterns = [
         catalog.views.item_detail,
         name="item_detail",
     ),
+    django.urls.path("new/", catalog.views.item_new, name="item_new"),
+    django.urls.path("friday/", catalog.views.item_friday, name="item_friday"),
+    django.urls.path(
+        "unverified/",
+        catalog.views.item_unverified,
+        name="item_unverified",
+    ),
 ]

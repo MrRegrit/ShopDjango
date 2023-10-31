@@ -127,6 +127,8 @@
         "category": 3,
         "main_image": 10,
         "is_on_main": false,
+        "created_at": "2023-10-31T07:31:23.844Z",
+        "updated_at": "2023-10-31T07:31:23.844Z",
         "tags": [
             2,
             3
@@ -143,6 +145,8 @@
         "category": 3,
         "main_image": 9,
         "is_on_main": false,
+        "created_at": "2023-10-22T07:31:23.844Z",
+        "updated_at": "2023-10-22T07:31:23.844Z",
         "tags": [
             2,
             3
@@ -159,6 +163,8 @@
         "category": 2,
         "main_image": 8,
         "is_on_main": true,
+        "created_at": "2023-10-31T07:31:23.844Z",
+        "updated_at": "2023-10-31T07:33:02.844Z",
         "tags": [
             4
         ]
@@ -174,6 +180,8 @@
         "category": 2,
         "main_image": 7,
         "is_on_main": false,
+        "created_at": "2023-10-31T07:31:23.844Z",
+        "updated_at": "2023-10-31T07:31:23.844Z",
         "tags": [
             2,
             3,
@@ -191,9 +199,32 @@
         "category": 3,
         "main_image": 6,
         "is_on_main": false,
+        "created_at": "2023-10-31T07:31:23.844Z",
+        "updated_at": "2023-10-31T07:31:23.844Z",
         "tags": [
             3,
             4
+        ]
+    }
+},
+{
+    "model": "catalog.item",
+    "pk": 6,
+    "fields": {
+        "is_published": true,
+        "name": "Тест",
+        "text": "<p>Превосходно текст</p>",
+        "category": 1,
+        "main_image": null,
+        "is_on_main": false,
+        "created_at": "2023-10-31T07:33:54.633Z",
+        "updated_at": "2023-10-31T07:33:54.633Z",
+        "tags": [
+            1,
+            2,
+            3,
+            4,
+            5
         ]
     }
 },

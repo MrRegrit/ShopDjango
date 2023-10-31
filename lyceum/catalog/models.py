@@ -1,8 +1,7 @@
 import ckeditor.fields
-import django.core.exceptions
-import django.core.validators
+import django.core
 import django.db.models
-import django.utils.html
+import django.utils
 import sorl.thumbnail
 
 import catalog.validators
@@ -178,6 +177,8 @@ class Item(core.models.PublishedAndNameAbstractModel):
         help_text="Поставьте галочку, "
         "если хотите разместить товар на главной странице",
     )
+    created_at = django.db.models.DateTimeField(auto_now_add=True)
+    updated_at = django.db.models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ("name",)
