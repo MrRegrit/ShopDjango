@@ -102,7 +102,7 @@ class MainImage(django.db.models.Model):
     )
 
     def __str__(self):
-        return self.image_tmb()
+        return "Изображение " + str(self.pk)
 
     class Meta:
         verbose_name = "главное изображение"
@@ -119,9 +119,12 @@ class MainImage(django.db.models.Model):
     def image_tmb(self):
         if self.image:
             return django.utils.html.mark_safe(
-                f'<img src="{self.image.url}" width="50">',
+                f'<img src="{self.get_image_300x300().url}" width="50">',
             )
         return "Нет изображения"
+
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
 
 
 class ItemManager(django.db.models.Manager):
@@ -186,8 +189,18 @@ class Item(core.models.PublishedAndNameAbstractModel):
         help_text="Поставьте галочку, "
         "если хотите разместить товар на главной странице",
     )
-    created_at = django.db.models.DateTimeField(auto_now_add=True, null=True)
-    updated_at = django.db.models.DateTimeField(auto_now=True, null=True)
+    created_at = django.db.models.DateTimeField(
+        auto_now_add=True,
+        null=True,
+        verbose_name="дата и время создания",
+        help_text="Это поле создается автоматически",
+    )
+    updated_at = django.db.models.DateTimeField(
+        auto_now=True,
+        null=True,
+        verbose_name="дата и время последнего изменения",
+        help_text="Это поле создается автоматически",
+    )
 
     class Meta:
         ordering = ("name",)
@@ -200,7 +213,8 @@ class Item(core.models.PublishedAndNameAbstractModel):
     def image_tmb(self):
         if self.main_image:
             return django.utils.html.mark_safe(
-                f'<img src="{self.main_image.image.url}" width="50">',
+                f'<img src="{self.main_image.get_image_300x300().url}"'
+                f' width="50">',
             )
         return "Нет изображения"
 
@@ -222,7 +236,7 @@ class Images(django.db.models.Model):
     )
 
     def __str__(self):
-        return self.image_tmb()
+        return "Изображение " + str(self.pk)
 
     class Meta:
         verbose_name = "дополнительное изображение"
@@ -231,9 +245,12 @@ class Images(django.db.models.Model):
     def image_tmb(self):
         if self.image:
             return django.utils.html.mark_safe(
-                f'<img src="{self.image.url}" width="50">',
+                f'<img src="{self.get_image_300x300().url}" width="50">',
             )
         return "Нет изображения"
+
+    image_tmb.short_description = "превью"
+    image_tmb.allow_tags = True
 
     def get_image_300x300(self):
         return sorl.thumbnail.get_thumbnail(

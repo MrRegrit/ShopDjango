@@ -22,4 +22,4 @@ class StaticURLTests(django.test.TestCase):
         )
 
 
-__all__ = ["StaticURLTests"]
+__all__ = []

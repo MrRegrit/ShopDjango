@@ -1,11 +1,11 @@
-![Pipeline Status](https://gitlab.crja72.ru/django_2023/students/142182-renatgaboff-47535/badges/main/pipeline.svg)
+![Pipeline Status](https://gitlab.crja72.ru/django_2023/students/142182-renatgaboff-course-967/badges/main/pipeline.svg)
 
 ## Технологии
 - Python 3.11
 - Django 4.2
 
 ## Диаграмма Базы Данных
-![DataBase](ER.png)
+![DataBase](ER.jpg)
 
 # Установка 
 ## Создание виртуального окружения

@@ -43,4 +43,4 @@ class ReverseRussianWordsFunctionTest(django.test.TestCase):
         )
 
 
-__all__ = ["MiddlewaresTests", "ReverseRussianWordsFunctionTest"]
+__all__ = []

@@ -5,15 +5,18 @@ import catalog.models
 
 class InlineImage(django.contrib.admin.TabularInline):
     model = catalog.models.Images
+    readonly_fields = ("image_tmb",)
 
 
 django.contrib.admin.site.register(
     catalog.models.MainImage,
     list_display=(catalog.models.MainImage.image_tmb,),
+    readonly_fields=(catalog.models.MainImage.image_tmb,),
 )
 django.contrib.admin.site.register(
     catalog.models.Images,
     list_display=(catalog.models.Images.image_tmb,),
+    readonly_fields=(catalog.models.Images.image_tmb,),
 )
 
 
@@ -50,9 +53,23 @@ class ItemAdmin(django.contrib.admin.ModelAdmin):
         InlineImage,
     ]
     readonly_fields = (
+        catalog.models.Item.image_tmb,
+        catalog.models.Item.created_at.field.name,
+        catalog.models.Item.updated_at.field.name,
+    )
+
+    fields = (
+        catalog.models.Item.name.field.name,
+        catalog.models.Item.is_published.field.name,
+        catalog.models.Item.is_on_main.field.name,
+        catalog.models.Item.text.field.name,
+        catalog.models.Item.category.field.name,
+        catalog.models.Item.tags.field.name,
+        catalog.models.Item.main_image.field.name,
+        catalog.models.Item.image_tmb,
         catalog.models.Item.created_at.field.name,
         catalog.models.Item.updated_at.field.name,
     )
 
 
-__all__ = ["ItemAdmin", "InlineImage"]
+__all__ = []

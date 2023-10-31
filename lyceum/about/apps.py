@@ -7,4 +7,4 @@ class AboutConfig(AppConfig):
     verbose_name = "О проекте"
 
 
-__all__ = ["AboutConfig"]
+__all__ = []

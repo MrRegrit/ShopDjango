@@ -7,4 +7,4 @@ class CoreConfig(django.apps.AppConfig):
     verbose_name = "Базовые модели"
 
 
-__all__ = ["CoreConfig"]
+__all__ = []

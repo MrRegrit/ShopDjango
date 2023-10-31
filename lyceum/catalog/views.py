@@ -111,7 +111,4 @@ def item_unverified(request):
     return django.shortcuts.render(request, template, context)
 
 
-__all__ = [
-    "item_list",
-    "item_detail",
-]
+__all__ = []

@@ -20,4 +20,4 @@ def coffee(request):
     )
 
 
-__all__ = ["home", "coffee"]
+__all__ = []

@@ -34,4 +34,4 @@ class ReversRussionWordsMiddleware:
         return result
 
 
-__all__ = ["ReversRussionWordsMiddleware"]
+__all__ = []

@@ -7,4 +7,4 @@ class CatalogConfig(django.apps.AppConfig):
     verbose_name = "Каталог"
 
 
-__all__ = ["CatalogConfig"]
+__all__ = []
