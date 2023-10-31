@@ -8,7 +8,8 @@ urlpatterns = [
     django.urls.path("", django.urls.include("homepage.urls")),
     django.urls.path("catalog/", django.urls.include("catalog.urls")),
     django.urls.path("about/", django.urls.include("about.urls")),
-    django.urls.path("dowload/", django.urls.include("download.urls")),
+    django.urls.path("download/", django.urls.include("download.urls")),
+    django.urls.path("admin/", django.contrib.admin.site.urls),
 ]
 
 if lyceum.settings.DEBUG:
