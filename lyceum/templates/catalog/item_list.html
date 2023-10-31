@@ -2,18 +2,18 @@
 {% load i18n %}
 {% load static %}
 {% block title %}
-	{{ title }}
+    {{ title }}
 {% endblock %}
 {% block content %}
-    <h1 class="text-center"> {{ title }} </h1>
-    {% for item in items %}
-        {% ifchanged %}<h1 class="m-2">{{ item.category.name }}</h1>{% endifchanged %}
-        <div class="row row-cols-2 row-cols-md-4 g-4 m-2">
-            <div class="col">
+    <div class="container">
+        <h1 class="text-center"> {{ title }} </h1>
+        {% for item in items %}
+            {% ifchanged %}<h1 class="m-2">{{ item.category.name }}</h1>{% endifchanged %}
+            <div class="row row-cols-2 row-cols-md-4 g-4 m-2">
                 {% include "includes/item_card.html" with name=item.name text=item.text id=item.id category=item.category.name tags=item.tags %}
             </div>
-        </div>
-        {% empty %}
-        <p>Спиоск пуст!</p>
-    {% endfor %}
+            {% empty %}
+            <p>Спиоск пуст!</p>
+        {% endfor %}
+    </div>
 {% endblock content %}

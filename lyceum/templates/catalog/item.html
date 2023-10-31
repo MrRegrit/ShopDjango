@@ -5,41 +5,42 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="row m-3">
-            <div class="col">
-                <h2>Категория: {{ item.category.name }}</h2>
-                <h1>
-                    {{ item.name }}
-                    {% for tag in item.tags.all %}
-                        <span class="badge rounded-pill text-bg-light">
-                            {{ tag.name }}
-                        </span>
-                    {% endfor %}
-                </h1>
-                <h3 class="m-3">{{ item.text|safe }}</h3>
-
+        <div class="row">
+            <div class="col-2">
+                {% for image in images.all %}
+                <p><img src="{{ image.get_image_300x300.url }}" height="150" alt=""></p>
+                <p class="m-3">
+                    <a href="{% url "download:download_file" image.image.url|cut:"/media/" %}">
+                        <button type="button" class="btn btn-primary">Скачать</button>
+                    </a>
+                </p>
+                {% endfor %}
             </div>
-            <div class="col">
-
+            <div class="col-6">
                 {% if item.main_image %}
-                    <h3>Главное изображение:</h3>
-                    <img src="{{ item.main_image.get_image_300x300.url }}" alt="">
-                    <p class="m-2"><a href="{% url "download:download_file" item.main_image.image.url|cut:"/media/" %}">
-                        <button type="button" class="btn btn-primary">Скачать</button></a></p>
+                <h3>Главное изображение:</h3>
+                <img src="{{ item.main_image.get_image_300x300.url }}" height="600" alt="">
+                <p class="m-3">
+                    <a href="{% url "download:download_file" item.main_image.image.url|cut:"/media/" %}">
+                        <button type="button" class="btn btn-primary">Скачать</button>
+                    </a>
+                </p>
+                {% else %}
+                    <h3 class="text-center">Главного изображения нет</h3>
                 {% endif %}
             </div>
-        </div>
-        <div class="row m-3">
-            {% for image in images.all %}
-                <div class="col">
-                    <img src="{{ image.get_image_300x300.url }}" alt="">
-                    <p class="m-2">
-                        <a href="{% url "download:download_file" image.image.url|cut:"/media/" %}">
-                            <button type="button" class="btn btn-primary">Скачать</button>
-                        </a>
-                    </p>
-                </div>
-            {% endfor %}
+            <div class="col-4">
+                <p><b>Категория:</b> {{ item.category.name }}</p>
+                <h3>{{ item.name }}</h3>
+                <p><b> Теги: </b>
+                    {% for tag in item.tags.all %}
+                    <span class="badge rounded-pill text-bg-light">
+                        {{ tag.name }}
+                    </span>
+                    {% endfor %}
+                </p>
+                <p>{{ item.text|safe }}</p>
+            </div>
         </div>
     </div>
 {% endblock content %}

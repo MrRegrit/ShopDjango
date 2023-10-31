@@ -1,21 +1,29 @@
 {% load i18n %}
 {% load static %}
 <div class="sticky-top bg-white">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom p-5">
-      <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <img class="bi me-2" width="40" height="32" src="{% static 'img/logo_cat_header.png' %}">
-        </a>
-      </div>
-      {% with request.resolver_match.view_name as view_name %}
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="{% url "homepage:home" %}" class="nav-link px-2 {% if view_name == "homepage:home" %}link-secondary disabled{% endif %}">{% trans "Homepage" %}</a></li>
-        <li><a href="{% url "catalog:item_list" %}" class="nav-link px-2 {% if view_name == "catalog:item_list" %}link-secondary disabled{% endif %}">{% trans "ItemList" %}</a></li>
-        <li><a href="{% url "about:description" %}" class="nav-link px-2 {% if view_name == "about:description" %}link-secondary disabled{% endif %}">{% trans "About" %}</a></li>
-        {% if user.is_superuser %}
-        	<li><a href="{% url "admin:index" %}" class="nav-link px-2">Админка</a></li>
-        {% endif %}
-      </ul>
-      {% endwith %}
-    </header>
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom p-5">
+            <div class="col-md-3 mb-2 mb-md-0">
+                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                    <img class="bi me-2" width="40" height="32" src="{% static 'img/logo_cat_header.png' %}">
+                </a>
+            </div>
+            {% with request.resolver_match.view_name as view_name %}
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="{% url "homepage:home" %}"
+                           class="nav-link px-2 {% if view_name == "homepage:home" %}link-secondary disabled{% endif %}">{% trans "Homepage" %}</a>
+                    </li>
+                    <li><a href="{% url "catalog:item_list" %}"
+                           class="nav-link px-2 {% if view_name == "catalog:item_list" %}link-secondary disabled{% endif %}">{% trans "ItemList" %}</a>
+                    </li>
+                    <li><a href="{% url "about:description" %}"
+                           class="nav-link px-2 {% if view_name == "about:description" %}link-secondary disabled{% endif %}">{% trans "About" %}</a>
+                    </li>
+                    {% if user.is_superuser %}
+                        <li><a href="{% url "admin:index" %}" class="nav-link px-2">Админка</a></li>
+                    {% endif %}
+                </ul>
+            {% endwith %}
+        </header>
+    </div>
 </div>
