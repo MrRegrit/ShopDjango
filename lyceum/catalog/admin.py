@@ -49,6 +49,10 @@ class ItemAdmin(django.contrib.admin.ModelAdmin):
     inlines = [
         InlineImage,
     ]
+    readonly_fields = (
+        catalog.models.Item.created_at.field.name,
+        catalog.models.Item.updated_at.field.name,
+    )
 
 
 __all__ = ["ItemAdmin", "InlineImage"]

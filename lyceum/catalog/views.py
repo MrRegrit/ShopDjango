@@ -11,7 +11,7 @@ def item_list(request):
         "category",
         "name",
     )
-    context = {"items": items}
+    context = {"items": items, "title": "Список товаров"}
     return django.shortcuts.render(request, template, context)
 
 
@@ -70,7 +70,7 @@ def item_new(request):
         )
     else:
         items = None
-    context = {"items": items}
+    context = {"items": items, "title": "Новинки"}
     return django.shortcuts.render(request, template, context)
 
 
@@ -93,7 +93,7 @@ def item_friday(request):
         )
     else:
         items = None
-    context = {"items": items}
+    context = {"items": items, "title": "Пятница"}
     return django.shortcuts.render(request, template, context)
 
 
@@ -107,7 +107,7 @@ def item_unverified(request):
             "name",
         )
     )
-    context = {"items": items}
+    context = {"items": items, "title": "Непроверенное"}
     return django.shortcuts.render(request, template, context)
 
 

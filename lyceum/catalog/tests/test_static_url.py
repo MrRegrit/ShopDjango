@@ -7,9 +7,17 @@ import parameterized
 
 
 class StaticURLTests(django.test.TestCase):
-    def test_catalog_list_endpoint(self):
+    @parameterized.parameterized.expand(
+        [
+            ("catalog:item_list",),
+            ("catalog:item_new",),
+            ("catalog:item_friday",),
+            ("catalog:item_unverified",),
+        ],
+    )
+    def test_catalog_list_endpoint(self, url):
         response = django.test.Client().get(
-            django.urls.reverse("catalog:item_list"),
+            django.urls.reverse(url),
         )
         self.assertEqual(response.status_code, http.HTTPStatus.OK)
 
