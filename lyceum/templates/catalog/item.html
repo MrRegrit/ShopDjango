@@ -10,7 +10,7 @@
                 {% for image in images.all %}
                 <p><img src="{{ image.get_image_300x300.url }}" height="150" alt=""></p>
                 <p class="m-3">
-                    <a href="{% url "download:download_file" image.image.url|cut:"/media/" %}">
+                    <a href="{% url "download:download_file" image.image %}">
                         <button type="button" class="btn btn-primary">Скачать</button>
                     </a>
                 </p>
@@ -21,7 +21,7 @@
                 <h3>Главное изображение:</h3>
                 <img src="{{ item.main_image.get_image_300x300.url }}" height="600" alt="">
                 <p class="m-3">
-                    <a href="{% url "download:download_file" item.main_image.image.url|cut:"/media/" %}">
+                    <a href="{% url "download:download_file" item.main_image.image %}">
                         <button type="button" class="btn btn-primary">Скачать</button>
                     </a>
                 </p>

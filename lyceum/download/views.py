@@ -10,7 +10,9 @@ def download_file(request, filepath):
             "Content-Disposition"
         ] = f'attachment; filename="{filepath.name}"'
     except FileNotFoundError:
-        raise django.http.Http404(f"Файл {filepath.name} для скачивания не существует")
+        raise django.http.Http404(
+            f"Файл {filepath.name} " f"для скачивания не существует",
+        )
     return response
 
 

@@ -5,7 +5,7 @@ import catalog.models
 
 class InlineImage(django.contrib.admin.TabularInline):
     model = catalog.models.Images
-    readonly_fields = ("image_tmb",)
+    readonly_fields = (catalog.models.Images.image_tmb,)
 
 
 django.contrib.admin.site.register(
