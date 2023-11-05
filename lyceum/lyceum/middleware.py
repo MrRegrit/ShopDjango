@@ -25,13 +25,9 @@ class ReversRussionWordsMiddleware:
         pattern = re.compile(r"\b[а-яА-ЯёЁ]+\b")
 
         def replace_word(match):
-            word = match.group()
-            reversed_word = word[::-1]
-            return reversed_word
+            return match.group()[::-1]
 
-        result = pattern.sub(replace_word, text)
-
-        return result
+        return pattern.sub(replace_word, text)
 
 
 __all__ = []

@@ -19,6 +19,10 @@
                     <li><a href="{% url "about:description" %}"
                            class="nav-link px-2 {% if view_name == "about:description" %}link-secondary disabled{% endif %}">{% trans "About" %}</a>
                     </li>
+                    <li>
+                        <a href="{% url "feedback:feedback" %}"
+                           class="nav-link px-2 {% if view_name == "feedback:feedback" %}link-secondary disabled{% endif %}">Обратная связь</a>
+                    </li>
                     {% if user.is_superuser %}
                         <li><a href="{% url "admin:index" %}" class="nav-link px-2">Админка</a></li>
                     {% endif %}

@@ -9,6 +9,7 @@ urlpatterns = [
     django.urls.path("catalog/", django.urls.include("catalog.urls")),
     django.urls.path("about/", django.urls.include("about.urls")),
     django.urls.path("download/", django.urls.include("download.urls")),
+    django.urls.path("feedback/", django.urls.include("feedback.urls")),
     django.urls.path("admin/", django.contrib.admin.site.urls),
 ]
 

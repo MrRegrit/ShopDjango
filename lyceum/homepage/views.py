@@ -4,6 +4,7 @@ import django.http
 import django.shortcuts
 
 import catalog.models
+import homepage.forms
 
 
 def home(request):
@@ -18,6 +19,22 @@ def coffee(request):
         "Я чайник",
         status=http.HTTPStatus.IM_A_TEAPOT,
     )
+
+
+def echo(request):
+    template = "homepage/echo.html"
+    form = homepage.forms.EchoForm(request.POST or None)
+
+    context = {
+        "form": form,
+    }
+    return django.shortcuts.render(request, template, context)
+
+
+def submit(request):
+    if request.method == "POST":
+        return django.http.HttpResponse(request._post.get("text"))
+    return django.http.HttpResponseNotFound()
 
 
 __all__ = []

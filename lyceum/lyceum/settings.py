@@ -18,9 +18,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "secret_key")
 
 DEBUG = load_bool("DJANGO_DEBUG", True)
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(", ")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(",")
 
 ALLOW_REVERSE = load_bool("DJANGO_ALLOW_REVERSE", False)
+
+MAIL = os.getenv("DJANGO_MAIL", "exemple@mail.com")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -36,6 +38,7 @@ INSTALLED_APPS = [
     "catalog.apps.CatalogConfig",
     "core.apps.CoreConfig",
     "download.apps.DownloadConfig",
+    "feedback.apps.FeedbackConfig",
     "homepage.apps.HomepageConfig",
 ]
 
@@ -134,5 +137,9 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+EMAIL_FILE_PATH = BASE_DIR / "send_mail"
 
 __all__ = []

@@ -1,6 +1,6 @@
 [flake8]
 exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,venv,migrations
-application_import_names = catalog, about, core, homepage, lyceum, download
+application_import_names = catalog,about,core,homepage,lyceum,download,feedback
 max-complexity = 10
 inline-quotes = "
 max-line-length = 79
