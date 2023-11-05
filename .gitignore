@@ -41,7 +41,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+send_mail/
 *.mo
 *.pot
 

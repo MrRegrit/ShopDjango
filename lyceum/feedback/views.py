@@ -3,11 +3,13 @@ import django.contrib.messages
 import django.core.mail
 import django.shortcuts
 
+import feedback.forms as fb_forms
+
 
 def feedback(request):
     template = "feedback/feedback.html"
 
-    form = feedback.forms.FeedbackForm(request.POST or None)
+    form = fb_forms.FeedbackForm(request.POST or None)
 
     if form.is_valid():
         mail = form.cleaned_data.get("mail")

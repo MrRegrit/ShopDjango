@@ -1,7 +1,7 @@
-django-ckeditor==6.7.0
-django-cleanup==8.0.0
 Django==4.2
 Pillow==10.1.0
+django-ckeditor==6.7.0
+django-cleanup==8.0.0
 python-dotenv==1.0.0
 sorl-thumbnail==12.10.0
 transliterate==1.10.2
