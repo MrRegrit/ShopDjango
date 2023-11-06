@@ -20,8 +20,9 @@ class StatusLog(django.db.models.Model):
         max_length=15,
         editable=False,
         verbose_name="статус до",
+        db_column="from",
     )
-    to_status = django.db.models.CharField(
+    to = django.db.models.CharField(
         max_length=15,
         editable=False,
         verbose_name="статус после",
@@ -39,6 +40,7 @@ class Feedback(django.db.models.Model):
     name = django.db.models.CharField(
         max_length=254,
         verbose_name="имя",
+        blank=True,
     )
     text = django.db.models.TextField(
         verbose_name="текст",
