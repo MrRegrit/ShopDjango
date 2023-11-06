@@ -4,10 +4,16 @@ import feedback.models
 
 
 class FeedbackForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     class Meta:
         model = feedback.models.Feedback
 
-        fields = (model.mail.field.name, model.text.field.name)
+        exclude = ["created_at"]
+
         labels = {
             model.mail.field.name: "Почта",
             model.text.field.name: "Текст обращения",
@@ -21,12 +27,11 @@ class FeedbackForm(django.forms.ModelForm):
         widgets = {
             model.mail.field.name: django.forms.EmailInput(
                 attrs={
-                    "class": "form-control",
                     "placeholder": "name@example.com",
                 },
             ),
             model.text.field.name: django.forms.Textarea(
-                attrs={"type": "text", "class": "form-control", "rows": 3},
+                attrs={"type": "text", "rows": 3},
             ),
         }
 

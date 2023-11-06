@@ -2,6 +2,7 @@ import http
 
 import django.http
 import django.shortcuts
+import django.views.decorators.http
 
 import catalog.models
 import homepage.forms
@@ -21,20 +22,26 @@ def coffee(request):
     )
 
 
+@django.views.decorators.http.require_GET
 def echo(request):
     template = "homepage/echo.html"
     form = homepage.forms.EchoForm(request.POST or None)
-
     context = {
         "form": form,
     }
     return django.shortcuts.render(request, template, context)
 
 
+@django.views.decorators.http.require_POST
 def submit(request):
-    if request.method == "POST":
-        return django.http.HttpResponse(request._post.get("text"))
-    return django.http.HttpResponseNotFound()
+    form = homepage.forms.EchoForm(request.POST or None)
+
+    if form.is_valid():
+        text = form.cleaned_data.get("text")
+
+        return django.http.HttpResponse(text)
+
+    return django.http.HttpResponseNotAllowed(["POST"])
 
 
 __all__ = []

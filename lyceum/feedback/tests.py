@@ -22,7 +22,7 @@ class FormTests(django.test.TestCase):
         text_label = FormTests.form.fields["text"].help_text
         self.assertEqual(text_label, "Введите текст обращение")
 
-    def test_create_form(self):
+    def test_create_valid_form(self):
         form_data = {"mail": "exemple@mail.ru", "text": "Тест"}
 
         response = django.test.Client().post(
@@ -37,6 +37,32 @@ class FormTests(django.test.TestCase):
             response,
             django.urls.reverse("feedback:feedback"),
         )
+
+    def test_create_form__with_invalid_mail(self):
+        form_data = {"mail": "exemple.ru", "text": "Тест"}
+
+        response = django.test.Client().post(
+            django.urls.reverse("feedback:feedback"),
+            data=form_data,
+        )
+
+        self.assertFormError(
+            response,
+            "form",
+            "mail",
+            "Введите правильный адрес электронной почты.",
+        )
+
+    def test_create_feedback_with_empty_fields(self):
+        form_data = {"mail": "", "text": ""}
+
+        response = django.test.Client().post(
+            django.urls.reverse("feedback:feedback"),
+            data=form_data,
+        )
+
+        self.assertFormError(response, "form", "mail", "Обязательное поле.")
+        self.assertFormError(response, "form", "text", "Обязательное поле.")
 
 
 __all__ = []
