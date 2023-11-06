@@ -12,14 +12,16 @@ class FeedbackForm(django.forms.ModelForm):
     class Meta:
         model = feedback.models.Feedback
 
-        exclude = ["created_at"]
+        exclude = ["created_at", "status"]
 
         labels = {
             model.mail.field.name: "Почта",
             model.text.field.name: "Текст обращения",
+            model.name.field.name: "Имя",
         }
 
         help_texts = {
+            model.name.field.name: "Введите ваше имя",
             model.mail.field.name: "Введите вашу почту",
             model.text.field.name: "Введите текст обращение",
         }

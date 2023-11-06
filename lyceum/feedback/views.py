@@ -25,6 +25,9 @@ def feedback(request):
                 ],
                 fail_silently=False,
             )
+
+            form.save()
+
             django.contrib.messages.success(request, "Обращение отправлено!")
             return django.shortcuts.redirect("feedback:feedback")
     context = {

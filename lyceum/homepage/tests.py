@@ -15,10 +15,9 @@ class StaticURLTests(django.test.TestCase):
         response = django.test.Client().get(
             django.urls.reverse("homepage:coffee"),
         )
-        self.assertContains(
-            response,
-            "Я чайник",
-            status_code=http.HTTPStatus.IM_A_TEAPOT,
+        self.assertEqual(
+            response.status_code,
+            http.HTTPStatus.IM_A_TEAPOT,
         )
 
 

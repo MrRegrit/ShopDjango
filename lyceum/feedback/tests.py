@@ -2,6 +2,7 @@ import django.test
 import django.urls
 
 import feedback.forms
+import feedback.models
 
 
 class FormTests(django.test.TestCase):
@@ -63,6 +64,21 @@ class FormTests(django.test.TestCase):
 
         self.assertFormError(response, "form", "mail", "Обязательное поле.")
         self.assertFormError(response, "form", "text", "Обязательное поле.")
+
+    def test_created_feedback_and_model(self):
+        feedback_count = feedback.models.Feedback.objects.count()
+
+        form_data = {"mail": "test@test.com", "text": "test"}
+
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"),
+            data=form_data,
+        )
+
+        self.assertEqual(
+            feedback_count + 1,
+            feedback.models.Feedback.objects.count(),
+        )
 
 
 __all__ = []
