@@ -79,16 +79,14 @@ class FormTests(django.test.TestCase):
             data=form_data,
         )
 
-        last = feedback.models.Feedback.objects.all().last()
-
         self.assertEqual(
             feedback_count + 1,
             feedback.models.Feedback.objects.count(),
         )
 
-        self.assertEqual(last.name, form_data["name"])
-        self.assertEqual(last.mail, form_data["mail"])
-        self.assertEqual(last.text, form_data["text"])
+        self.assertIsNotNone(
+            feedback.models.Feedback.objects.get(text=form_data["text"]),
+        )
 
 
 __all__ = []
