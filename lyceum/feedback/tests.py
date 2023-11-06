@@ -24,7 +24,7 @@ class FormTests(django.test.TestCase):
         self.assertEqual(text_label, "Введите текст обращение")
 
     def test_create_valid_form(self):
-        form_data = {"mail": "exemple@mail.ru", "text": "Тест"}
+        form_data = {"mail": "exemple@mail.ru", "text": "Тест", "name": "banana"}
 
         response = django.test.Client().post(
             django.urls.reverse("feedback:feedback"),
@@ -40,7 +40,7 @@ class FormTests(django.test.TestCase):
         )
 
     def test_create_form__with_invalid_mail(self):
-        form_data = {"mail": "exemple.ru", "text": "Тест"}
+        form_data = {"mail": "exemple.ru", "text": "Тест", "name": "banana"}
 
         response = django.test.Client().post(
             django.urls.reverse("feedback:feedback"),
@@ -55,7 +55,7 @@ class FormTests(django.test.TestCase):
         )
 
     def test_create_feedback_with_empty_fields(self):
-        form_data = {"mail": "", "text": ""}
+        form_data = {"mail": "", "text": "", "name": ""}
 
         response = django.test.Client().post(
             django.urls.reverse("feedback:feedback"),
@@ -68,7 +68,7 @@ class FormTests(django.test.TestCase):
     def test_created_feedback_and_model(self):
         feedback_count = feedback.models.Feedback.objects.count()
 
-        form_data = {"mail": "test@test.com", "text": "test"}
+        form_data = {"mail": "test@test.com", "text": "test", "name": "name"}
 
         django.test.Client().post(
             django.urls.reverse("feedback:feedback"),
