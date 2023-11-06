@@ -11,21 +11,22 @@ def feedback(request):
 
     form = fb_forms.FeedbackForm(request.POST or None)
 
-    if form.is_valid():
-        mail = form.cleaned_data.get("mail")
-        text = form.cleaned_data.get("text")
+    if request.method == "POST":
+        if form.is_valid():
+            mail = form.cleaned_data.get("mail")
+            text = form.cleaned_data.get("text")
 
-        django.core.mail.send_mail(
-            "Обращение",
-            text,
-            django.conf.settings.MAIL,
-            [
-                mail,
-            ],
-            fail_silently=False,
-        )
-        django.contrib.messages.success(request, "Обращение отправлено!")
-        return django.shortcuts.redirect("feedback:feedback")
+            django.core.mail.send_mail(
+                "Обращение",
+                text,
+                django.conf.settings.MAIL,
+                [
+                    mail,
+                ],
+                fail_silently=False,
+            )
+            django.contrib.messages.success(request, "Обращение отправлено!")
+            return django.shortcuts.redirect("feedback:feedback")
     context = {
         "form": form,
     }
