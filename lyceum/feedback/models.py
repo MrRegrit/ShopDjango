@@ -13,13 +13,18 @@ class StatusLog(django.db.models.Model):
         editable=False,
     )
     timestamp = django.db.models.DateTimeField(
-        auto_now_add=True, verbose_name="время изменения",
+        auto_now_add=True,
+        verbose_name="время изменения",
     )
     from_status = django.db.models.CharField(
-        max_length=15, editable=False, verbose_name="статус до",
+        max_length=15,
+        editable=False,
+        verbose_name="статус до",
     )
     to_status = django.db.models.CharField(
-        max_length=15, editable=False, verbose_name="статус после",
+        max_length=15,
+        editable=False,
+        verbose_name="статус после",
     )
 
     class Meta:

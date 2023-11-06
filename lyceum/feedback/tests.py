@@ -24,7 +24,11 @@ class FormTests(django.test.TestCase):
         self.assertEqual(text_label, "Введите текст обращение")
 
     def test_create_valid_form(self):
-        form_data = {"mail": "exemple@mail.ru", "text": "Тест", "name": "banana"}
+        form_data = {
+            "mail": "exemple@mail.ru",
+            "text": "Тест",
+            "name": "banana",
+        }
 
         response = django.test.Client().post(
             django.urls.reverse("feedback:feedback"),
