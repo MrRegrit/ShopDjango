@@ -92,7 +92,7 @@ class Feedback(django.db.models.Model):
 
 
 class FeedbackFiles(django.db.models.Model):
-    def feedback_directory_to(self, filename):
+    def _feedback_upload_to(self, filename):
         return f"uploads/{self.feedback_id}/{filename}"
 
     feedback = django.db.models.ForeignKey(
@@ -103,7 +103,7 @@ class FeedbackFiles(django.db.models.Model):
         verbose_name="обращение",
     )
     file = django.db.models.FileField(
-        upload_to=feedback_directory_to,
+        upload_to=_feedback_upload_to,
         verbose_name="файл",
     )
 
