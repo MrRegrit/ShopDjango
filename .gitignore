@@ -44,7 +44,7 @@ cover/
 send_mail/
 *.mo
 *.pot
-
+uploads/
 *.log
 local_settings.py
 db.sqlite3

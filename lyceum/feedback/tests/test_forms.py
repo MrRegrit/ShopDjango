@@ -1,3 +1,5 @@
+import pathlib
+
 import django.test
 import django.urls
 
@@ -9,19 +11,25 @@ class FormTests(django.test.TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.form = feedback.forms.FeedbackForm()
+        cls.feedback_form = feedback.forms.FeedbackForm()
+        cls.feedback_extra_form = feedback.forms.FeedbackExtraForm()
+        cls.feedback_fiels_form = feedback.forms.FeedbackFilesForm()
 
     def test_labels(self):
-        mail_label = FormTests.form.fields["mail"].label
+        mail_label = FormTests.feedback_extra_form.fields["mail"].label
         self.assertEqual(mail_label, "Почта")
-        text_label = FormTests.form.fields["text"].label
+        text_label = FormTests.feedback_form.fields["text"].label
         self.assertEqual(text_label, "Текст обращения")
+        name_label = FormTests.feedback_extra_form.fields["name"].label
+        self.assertEqual(name_label, "Имя")
 
     def test_help_texts(self):
-        mail_label = FormTests.form.fields["mail"].help_text
-        self.assertEqual(mail_label, "Введите вашу почту")
-        text_label = FormTests.form.fields["text"].help_text
-        self.assertEqual(text_label, "Введите текст обращение")
+        mail_help_text = FormTests.feedback_extra_form.fields["mail"].help_text
+        self.assertEqual(mail_help_text, "Введите вашу почту")
+        text_help_text = FormTests.feedback_form.fields["text"].help_text
+        self.assertEqual(text_help_text, "Введите текст обращение")
+        name_help_text = FormTests.feedback_extra_form.fields["name"].help_text
+        self.assertEqual(name_help_text, "Введите ваше имя")
 
     def test_create_valid_form(self):
         form_data = {
@@ -53,7 +61,7 @@ class FormTests(django.test.TestCase):
 
         self.assertFormError(
             response,
-            "form",
+            "feedback_extra_form",
             "mail",
             "Введите правильный адрес электронной почты.",
         )
@@ -66,8 +74,18 @@ class FormTests(django.test.TestCase):
             data=form_data,
         )
 
-        self.assertFormError(response, "form", "mail", "Обязательное поле.")
-        self.assertFormError(response, "form", "text", "Обязательное поле.")
+        self.assertFormError(
+            response,
+            "feedback_extra_form",
+            "mail",
+            "Обязательное поле.",
+        )
+        self.assertFormError(
+            response,
+            "feedback_form",
+            "text",
+            "Обязательное поле.",
+        )
 
     def test_created_feedback_and_model(self):
         feedback_count = feedback.models.Feedback.objects.count()
@@ -86,6 +104,26 @@ class FormTests(django.test.TestCase):
 
         self.assertIsNotNone(
             feedback.models.Feedback.objects.get(text=form_data["text"]),
+        )
+
+    def test_upload_file(self):
+        feedback_count = feedback.models.FeedbackFiles.objects.count()
+        with pathlib.Path("feedback/tests/test.png").open("rb") as test_file:
+            form_data = {
+                "mail": "test@test.com",
+                "text": "test",
+                "name": "name",
+                "file": test_file,
+            }
+
+            django.test.Client().post(
+                django.urls.reverse("feedback:feedback"),
+                data=form_data,
+            )
+
+        self.assertEqual(
+            feedback_count + 1,
+            feedback.models.FeedbackFiles.objects.count(),
         )
 
 

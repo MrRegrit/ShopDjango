@@ -36,17 +36,27 @@ class StatusLog(django.db.models.Model):
         return self.user.username
 
 
-class Feedback(django.db.models.Model):
+class FeedbackExtra(django.db.models.Model):
     name = django.db.models.CharField(
         max_length=254,
         verbose_name="имя",
         blank=True,
     )
-    text = django.db.models.TextField(
-        verbose_name="текст",
-    )
     mail = django.db.models.EmailField(
         verbose_name="почта",
+    )
+
+    class Meta:
+        verbose_name = "данные к обращению"
+        verbose_name_plural = "данные к обращениям"
+
+    def __str__(self):
+        return self.mail
+
+
+class Feedback(django.db.models.Model):
+    text = django.db.models.TextField(
+        verbose_name="текст",
     )
     created_on = django.db.models.DateTimeField(
         auto_now_add=True,
@@ -63,13 +73,47 @@ class Feedback(django.db.models.Model):
         ),
         verbose_name="статус",
     )
+    extra = django.db.models.ForeignKey(
+        FeedbackExtra,
+        on_delete=django.db.models.CASCADE,
+        related_name="feedbackExtra",
+        related_query_name="FeedbackExtra",
+        verbose_name="доп. данные",
+    )
 
     class Meta:
         verbose_name = "обращение"
         verbose_name_plural = "обращения"
 
     def __str__(self):
+        if len(str(self.text)) > 20:
+            return self.text[:20] + "..."
         return self.text[:20]
+
+
+def feedback_directory_path(instance, filename):
+    return f"uploads/{instance.feedback_id}/{filename}"
+
+
+class FeedbackFiles(django.db.models.Model):
+    feedback = django.db.models.ForeignKey(
+        Feedback,
+        on_delete=django.db.models.CASCADE,
+        related_name="feedbacks",
+        related_query_name="feedback",
+        verbose_name="обращение",
+    )
+    file = django.db.models.FileField(
+        upload_to=feedback_directory_path,
+        verbose_name="файл",
+    )
+
+    class Meta:
+        verbose_name = "файлы к обращению"
+        verbose_name_plural = "файлы к обращениям"
+
+    def __str__(self):
+        return str(self.pk)
 
 
 __all__ = []
