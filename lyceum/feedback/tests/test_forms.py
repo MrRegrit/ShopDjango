@@ -1,3 +1,4 @@
+import django.conf
 import django.core.files.uploadedfile
 import django.test
 import django.urls
@@ -105,6 +106,9 @@ class FormTests(django.test.TestCase):
             feedback.models.Feedback.objects.get(text=form_data["text"]),
         )
 
+    @django.test.override_settings(
+        MEDIA_ROOT=django.conf.settings.BASE_DIR / "media_test",
+    )
     def test_upload_file(self):
         feedback_count = feedback.models.FeedbackFiles.objects.count()
 

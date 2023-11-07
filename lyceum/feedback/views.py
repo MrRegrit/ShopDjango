@@ -18,7 +18,11 @@ def feedback(request):
     )
 
     if request.method == "POST":
-        if feedback_form.is_valid() and feedback_extra_form.is_valid():
+        if (
+            feedback_form.is_valid()
+            and feedback_extra_form.is_valid()
+            and feedback_files_form.is_valid()
+        ):
             mail = feedback_extra_form.cleaned_data.get("mail")
             text = feedback_form.cleaned_data.get("text")
 

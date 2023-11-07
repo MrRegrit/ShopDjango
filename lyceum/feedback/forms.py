@@ -55,6 +55,10 @@ class FeedbackExtraForm(django.forms.ModelForm):
 
 
 class FeedbackFilesForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["file"].required = False
+
     class Meta:
         model = feedback.models.FeedbackFiles
 

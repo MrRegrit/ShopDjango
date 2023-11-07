@@ -73,7 +73,7 @@ class Feedback(django.db.models.Model):
         ),
         verbose_name="статус",
     )
-    extra = django.db.models.ForeignKey(
+    extra = django.db.models.OneToOneField(
         FeedbackExtra,
         on_delete=django.db.models.CASCADE,
         related_name="feedbackExtra",
@@ -91,11 +91,10 @@ class Feedback(django.db.models.Model):
         return self.text[:20]
 
 
-def feedback_directory_path(instance, filename):
-    return f"uploads/{instance.feedback_id}/{filename}"
-
-
 class FeedbackFiles(django.db.models.Model):
+    def feedback_directory_to(self, filename):
+        return f"uploads/{self.feedback_id}/{filename}"
+
     feedback = django.db.models.ForeignKey(
         Feedback,
         on_delete=django.db.models.CASCADE,
@@ -104,7 +103,7 @@ class FeedbackFiles(django.db.models.Model):
         verbose_name="обращение",
     )
     file = django.db.models.FileField(
-        upload_to=feedback_directory_path,
+        upload_to=feedback_directory_to,
         verbose_name="файл",
     )
 
