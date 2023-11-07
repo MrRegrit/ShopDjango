@@ -1,5 +1,4 @@
-import pathlib
-
+import django.core.files.uploadedfile
 import django.test
 import django.urls
 
@@ -108,18 +107,23 @@ class FormTests(django.test.TestCase):
 
     def test_upload_file(self):
         feedback_count = feedback.models.FeedbackFiles.objects.count()
-        with pathlib.Path("feedback/tests/test.png").open("rb") as test_file:
-            form_data = {
-                "mail": "test@test.com",
-                "text": "test",
-                "name": "name",
-                "file": test_file,
-            }
 
-            django.test.Client().post(
-                django.urls.reverse("feedback:feedback"),
-                data=form_data,
-            )
+        test_file = django.core.files.uploadedfile.SimpleUploadedFile(
+            "test.png",
+            b"file_content",
+            content_type="image/png",
+        )
+        form_data = {
+            "mail": "test@test.com",
+            "text": "test",
+            "name": "name",
+            "file": test_file,
+        }
+
+        django.test.Client().post(
+            django.urls.reverse("feedback:feedback"),
+            data=form_data,
+        )
 
         self.assertEqual(
             feedback_count + 1,
