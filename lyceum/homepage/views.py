@@ -6,7 +6,6 @@ import django.views.decorators.http
 
 import catalog.models
 import homepage.forms
-import users.models
 
 
 def home(request):
@@ -18,9 +17,8 @@ def home(request):
 
 def coffee(request):
     if request.user.is_authenticated:
-        user = users.models.Profile.objects.get(user=request.user.id)
-        user.coffee_count += 1
-        user.save()
+        request.user.profile.coffee_count += 1
+        request.user.profile.save()
     return django.http.HttpResponse(
         "Я чайник",
         status=http.HTTPStatus.IM_A_TEAPOT,

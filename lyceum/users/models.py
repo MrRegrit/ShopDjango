@@ -18,7 +18,7 @@ class Profile(django.db.models.Model):
         django.conf.settings.AUTH_USER_MODEL,
         on_delete=django.db.models.CASCADE,
         verbose_name="пользователь",
-        related_name="profiles",
+        related_name="profile",
         related_query_name="profile",
         editable=False,
     )

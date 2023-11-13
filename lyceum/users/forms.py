@@ -33,6 +33,17 @@ class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
 
 
 class ProfileChangeForm(django.forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["coffee_count"].widget.attrs["disabled"] = True
+        self.fields["coffee_count"].required = False
+
+    def clean_coffee_count(self):
+        instance = getattr(self, "instance", None)
+        if instance and instance.pk:
+            return instance.coffee_count
+        return self.cleaned_data["coffee_count"]
+
     class Meta:
         model = users.models.Profile
         fields = (
@@ -58,7 +69,7 @@ class ProfileChangeForm(django.forms.ModelForm):
                 },
             ),
             model.coffee_count.field.name: django.forms.TextInput(
-                attrs={"class": "form-control", "readonly": "readonly"},
+                attrs={"class": "form-control"},
             ),
         }
 
