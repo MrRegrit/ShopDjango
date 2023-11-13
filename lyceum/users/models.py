@@ -33,7 +33,7 @@ class Profile(django.db.models.Model):
         null=True,
         blank=True,
     )
-    coffee_count = django.db.models.IntegerField(
+    coffee_count = django.db.models.PositiveIntegerField(
         default=0,
         verbose_name="количество переходов по /coffee/",
     )

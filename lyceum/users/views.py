@@ -7,7 +7,6 @@ import django.core.mail
 import django.shortcuts
 import django.utils.timezone
 
-
 import users.forms
 import users.models
 
@@ -113,6 +112,10 @@ def user_list(request):
 @django.contrib.auth.decorators.login_required
 def profile(request):
     template = "users/profile.html"
+    user = users.models.Profile.objects.get(user=request.user.id)
+    initial = {}
+    if not (user.birthday is None):
+        initial["birthday"] = user.birthday.strftime("%Y-%m-%d")
     forms = (
         users.forms.UserChangeForm(
             request.POST or None,
@@ -121,12 +124,11 @@ def profile(request):
         users.forms.ProfileChangeForm(
             request.POST or None,
             request.FILES or None,
-            instance=users.models.Profile.objects.get(
-                user=request.user.id,
-            ),
+            initial=initial,
+            instance=user,
         ),
     )
-    if request.method == "POST" and all([form.is_valid() for form in forms]):
+    if request.method == "POST" and all(form.is_valid() for form in forms):
         [form.save() for form in forms]
         return django.shortcuts.redirect(
             django.shortcuts.reverse("users:profile"),

@@ -26,6 +26,12 @@
                     {% if user.is_superuser %}
                         <li><a href="{% url "admin:index" %}" class="nav-link px-2">Админка</a></li>
                     {% endif %}
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url "users:profile" %}" class="nav-link px-2 {% if view_name == "users:profile" %}link-secondary disabled{% endif %}">Профиль</a></li>
+                    {% else %}
+                        <li><a href="{% url "users:login" %}" class="nav-link px-2 {% if view_name == "users:login" %}link-secondary disabled{% endif %}">Вход в аккаунт</a></li>
+                    {% endif %}
+
                 </ul>
             {% endwith %}
         </header>

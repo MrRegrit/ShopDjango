@@ -33,14 +33,14 @@ urlpatterns = [
     django.urls.path(
         "logout/",
         django.contrib.auth.views.LogoutView.as_view(
-            template_name="users/logged_out.html",
+            template_name="users/logout.html",
         ),
         name="logout",
     ),
     django.urls.path(
         "password_change/",
         django.contrib.auth.views.PasswordChangeView.as_view(
-            template_name="users/password_change_form.html",
+            template_name="users/password_change.html",
         ),
         name="password_change",
     ),
@@ -54,7 +54,7 @@ urlpatterns = [
     django.urls.path(
         "password_reset/",
         django.contrib.auth.views.PasswordResetView.as_view(
-            template_name="users/password_reset_form.html",
+            template_name="users/password_reset.html",
         ),
         name="password_reset",
     ),

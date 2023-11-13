@@ -10,7 +10,7 @@ class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
 
     class Meta:
         model = django.contrib.auth.models.User
-        fields = ("username", "email", "password1", "password2")
+        fields = (model.username.field.name, model.email.field.name)
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
@@ -23,17 +23,26 @@ class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
 class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
     password = None
 
-    class Meta:
+    class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
         model = django.contrib.auth.models.User
-        fields = ("email", "first_name", "last_name")
+        fields = (
+            model.email.field.name,
+            model.first_name.field.name,
+            model.last_name.field.name,
+        )
 
 
 class ProfileChangeForm(django.forms.ModelForm):
     class Meta:
         model = users.models.Profile
-        exclude = ["coffee_count"]
+        fields = (
+            model.birthday.field.name,
+            model.image.field.name,
+            model.coffee_count.field.name,
+        )
         labels = {
             model.image.field.name: "Аватарка",
+            model.coffee_count.field.name: "Выпито кофе",
         }
 
         widgets = {
@@ -41,6 +50,15 @@ class ProfileChangeForm(django.forms.ModelForm):
                 attrs={
                     "class": "form-control",
                 },
+            ),
+            model.birthday.field.name: django.forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control",
+                },
+            ),
+            model.coffee_count.field.name: django.forms.TextInput(
+                attrs={"class": "form-control", "readonly": "readonly"},
             ),
         }
 
