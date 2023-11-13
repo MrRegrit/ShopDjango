@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+    Войти
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% include "includes/users_form.html" with label="Вход в аккаунт" btn_text="Войти" %}
+{% endblock content %}

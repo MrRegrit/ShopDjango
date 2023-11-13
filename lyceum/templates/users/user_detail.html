@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+    Пользователь {{ profile.user.id }}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row row-cols-2 row-cols-md-4 g-4 m-2">
+            <div class="col">
+                <div class="card h-100">
+                    {% if profile.image %}
+                    	<img src="{{ profile.get_image_300x300.url }}" alt="неуказано">
+                    {% endif %}
+
+                    <div class="card-body h-100">
+                        <h5 class="card-title">{{ profile.user.email }}</h5>
+                        Дата рождения:
+                        {% if profile.birthday %}
+                            {{ profile.birthday }}
+                        {% else %}
+                            <b>неуказано</b>
+                        {% endif %} <br>
+                        Количество питья коффе: {{ profile.coffee_count }}<br>
+                        Имя:
+                        {% if profile.user.first_name %}
+                            {{ profile.user.first_name }}
+                        {% else %}
+                            <b>неуказано</b>
+                        {% endif %}<br>
+                        Фамилия:
+                        {% if profile.user.last_name %}
+                            {{ profile.user.last_name }}
+                        {% else %}
+                            <b>неуказано</b>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

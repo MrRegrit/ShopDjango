@@ -24,6 +24,11 @@ ALLOW_REVERSE = load_bool("DJANGO_ALLOW_REVERSE", False)
 
 MAIL = os.getenv("DJANGO_MAIL", "exemple@mail.com")
 
+if DEBUG:
+    DEFAULT_USER_IS_ACTIVE = load_bool("DEFAULT_USER_IS_ACTIVE", True)
+else:
+    DEFAULT_USER_IS_ACTIVE = load_bool("DEFAULT_USER_IS_ACTIVE", False)
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
     "download.apps.DownloadConfig",
     "feedback.apps.FeedbackConfig",
     "homepage.apps.HomepageConfig",
+    "users.apps.UsersConfig",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +141,8 @@ LANGUAGES = [
     ("en", django.utils.translation.gettext_lazy("English")),
     ("ru", django.utils.translation.gettext_lazy("Russian")),
 ]
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/"
 
 LOCALE_PATHS = [BASE_DIR / "locale"]
 

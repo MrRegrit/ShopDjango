@@ -6,6 +6,7 @@ import django.views.decorators.http
 
 import catalog.models
 import homepage.forms
+import users.models
 
 
 def home(request):
@@ -16,6 +17,10 @@ def home(request):
 
 
 def coffee(request):
+    if request.user.is_authenticated:
+        user = users.models.Profile.objects.get(user=request.user.id)
+        user.coffee_count += 1
+        user.save()
     return django.http.HttpResponse(
         "Я чайник",
         status=http.HTTPStatus.IM_A_TEAPOT,
@@ -41,7 +46,7 @@ def submit(request):
 
         return django.http.HttpResponse(text)
 
-    return django.http.HttpResponseNotAllowed(["POST"])
+    return django.http.HttpResponseBadRequest("Invalid form")
 
 
 __all__ = []

@@ -1,0 +1,51 @@
+<div class="container">
+    <h1 class="text-center logo my-4">
+        {{ label }}
+    </h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <p class="fw-bold">
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}:
+                                    {% if field.field.required %}
+                                        <span>*</span>
+                                    {% endif %}
+                                </label>
+                            </p>
+                            <p>
+                                {{ field }}
+                            </p>
+                            <p class="text-warning">
+                                {% for error in field.errors %}
+                                    {{ error|escape }}<br>
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    {{ error|escape }}<br>
+                                {% endfor %}
+                            </p>
+                            <p>
+                                {% if field.help_text %}
+                                    <small id="{{ field.id_for_label }}-help" class="text-muted">
+                                        {{ field.help_text|safe }}
+                                    </small>
+                                {% endif %}
+                            </p>
+                        {% endfor %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-block">{{ btn_text }}</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    Нет аккаунта? <a href="{% url "users:signup" %}">Зарегистрироваться</a><br>
+                    Забыли пароль? <a href="{% url "users:password_reset" %}">Восстоновить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

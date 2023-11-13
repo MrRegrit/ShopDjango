@@ -1,5 +1,6 @@
 import django.conf.urls.static
-import django.contrib
+import django.contrib.admin
+import django.contrib.auth.urls
 import django.urls
 
 import lyceum.settings
@@ -10,6 +11,8 @@ urlpatterns = [
     django.urls.path("about/", django.urls.include("about.urls")),
     django.urls.path("download/", django.urls.include("download.urls")),
     django.urls.path("feedback/", django.urls.include("feedback.urls")),
+    django.urls.path("auth/", django.urls.include("users.urls")),
+    django.urls.path("auth/", django.urls.include(django.contrib.auth.urls)),
     django.urls.path("admin/", django.contrib.admin.site.urls),
 ]
 
