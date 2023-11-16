@@ -285,7 +285,7 @@ class FormTests(django.test.TestCase):
             "password2": "sdvfga2#QAZ",
         }
         login_user = {
-            "username": "test",
+            "username": "test@test.com",
             "password": "123432",
         }
 

@@ -3,7 +3,6 @@ exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,venv,migrations
 application_import_names = catalog,about,core,homepage,lyceum,download,feedback,users
 max-complexity = 10
 inline-quotes = "
-ignore = E203, W503
 max-line-length = 79
 black-config = .\.black
 import-order-style = google

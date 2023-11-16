@@ -2,27 +2,15 @@ import django.contrib.auth.forms
 import django.contrib.auth.models
 import django.forms
 
-import users.backends
 import users.models
 
 
 class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
     email = django.forms.EmailField(required=True)
 
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        return users.backends.normalize_email(email)
-
     class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
-        model = django.contrib.auth.models.User
+        model = users.models.User
         fields = (model.username.field.name, model.email.field.name)
-
-    def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
 
 
 class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
@@ -34,7 +22,7 @@ class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
     password = None
 
     class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
-        model = django.contrib.auth.models.User
+        model = users.models.User
         fields = (
             model.email.field.name,
             model.first_name.field.name,

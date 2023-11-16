@@ -7,30 +7,24 @@ import django.db.models
 import django.shortcuts
 import django.utils.timezone
 
-
-def normalize_email(email):
-    email = email.replace("@ya.ru", "@yandex.ru")
-    if "+" in email:
-        email = email[: email.index("+")] + email[email.index("@") :]
-    if "@gmail.com" in email:
-        email = email.replace("@gmail.com", "").replace(".", "") + "@gmail.com"
-    elif "@yandex.ru" in email:
-        email = (
-            email.replace("@yandex.ru", "").replace(".", "-") + "@yandex.ru"
-        )
-    return email.lower()
+import users.models as users_models
 
 
 class EmailOrUsernameModelBackend(django.contrib.auth.backends.ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        user_model = django.contrib.auth.get_user_model()
+        user_model = users_models.User
         if username is None:
             username = kwargs.get(user_model.USERNAME_FIELD)
-        users = user_model._default_manager.filter(
-            django.db.models.Q(**{user_model.USERNAME_FIELD: username})
-            | django.db.models.Q(email__iexact=normalize_email(username)),
-        )
-        for user in set(users):
+        if username is None or password is None:
+            return None
+        try:
+            if "@" in username:
+                user = user_model.objects.by_mail(username)
+            else:
+                user = user_model.objects.get(username=username)
+        except user_model.DoesNotExist:
+            user_model().set_password(password)
+        else:
             if user.check_password(password):
                 user.profile.attempts_count = 0
                 user.profile.save()
@@ -73,9 +67,6 @@ class EmailOrUsernameModelBackend(django.contrib.auth.backends.ModelBackend):
                         fail_silently=False,
                     )
             user.profile.save()
-        if not users:
-            user_model().set_password(password)
-        return None
 
 
 __all__ = []
