@@ -15,6 +15,7 @@ if "makemigrations" not in sys.argv and "migrate" not in sys.argv:
 class UserManager(django.contrib.auth.models.BaseUserManager):
     @classmethod
     def normalize_email(cls, email):
+        email = super().normalize_email(email)
         email = email.replace("@ya.ru", "@yandex.ru")
         if "+" in email:
             email_name, email_domen = email.split("@")

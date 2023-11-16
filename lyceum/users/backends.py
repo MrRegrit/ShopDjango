@@ -7,23 +7,22 @@ import django.db.models
 import django.shortcuts
 import django.utils.timezone
 
-import users.models as users_models
+import users.models
 
 
 class EmailOrUsernameModelBackend(django.contrib.auth.backends.ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        user_model = users_models.User
         if username is None:
-            username = kwargs.get(user_model.USERNAME_FIELD)
+            username = kwargs.get(users.models.User.USERNAME_FIELD)
         if username is None or password is None:
             return None
         try:
             if "@" in username:
-                user = user_model.objects.by_mail(username)
+                user = users.models.User.objects.by_mail(username)
             else:
-                user = user_model.objects.get(username=username)
-        except user_model.DoesNotExist:
-            user_model().set_password(password)
+                user = users.models.User.objects.get(username=username)
+        except users.models.User.DoesNotExist:
+            users.models.User().set_password(password)
         else:
             if user.check_password(password):
                 user.profile.attempts_count = 0
