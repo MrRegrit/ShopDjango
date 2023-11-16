@@ -2,8 +2,6 @@ import re
 
 import django.conf
 
-import users.models
-
 
 class ReversRussionWordsMiddleware:
     counter = 0
@@ -30,16 +28,6 @@ class ReversRussionWordsMiddleware:
             return match.group()[::-1]
 
         return pattern.sub(replace_word, text)
-
-
-class ChangeRequestUserMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        if request.user.is_authenticated:
-            request.user = users.models.User.objects.get(id=request.user.id)
-        return self.get_response(request)
 
 
 __all__ = []

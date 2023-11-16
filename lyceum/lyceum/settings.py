@@ -57,8 +57,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    "lyceum.middleware.ChangeRequestUserMiddleware",
     "lyceum.middleware.ReversRussionWordsMiddleware",
+    "users.middleware.ChangeRequestUserMiddleware",
 ]
 
 if DEBUG:
