@@ -112,10 +112,10 @@ def user_list(request):
 @django.contrib.auth.decorators.login_required
 def profile(request):
     template = "users/profile.html"
-    user = users.models.Profile.objects.get(user=request.user.id)
     initial = {}
-    if not (user.birthday is None):
-        initial["birthday"] = user.birthday.strftime("%Y-%m-%d")
+    user_profile = request.user.profile
+    if not (user_profile.birthday is None):
+        initial["birthday"] = user_profile.birthday.strftime("%Y-%m-%d")
     forms = (
         users.forms.UserChangeForm(
             request.POST or None,
@@ -125,7 +125,7 @@ def profile(request):
             request.POST or None,
             request.FILES or None,
             initial=initial,
-            instance=user,
+            instance=user_profile,
         ),
     )
     if request.method == "POST" and all(form.is_valid() for form in forms):

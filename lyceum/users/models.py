@@ -1,9 +1,22 @@
 import datetime
+import sys
 
 import django.conf
+import django.contrib.auth.models
 import django.db.models
 import django.utils.html
 import sorl.thumbnail
+
+if "makemigrations" not in sys.argv and "migrate" not in sys.argv:
+    django.contrib.auth.models.User._meta.get_field("email")._unique = True
+
+
+class UserManager(django.db.models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().select_related("profile")
+
+    def by_mail(self, mail):
+        return self.get_queryset().get(email=mail)
 
 
 class Profile(django.db.models.Model):
@@ -62,6 +75,16 @@ class Profile(django.db.models.Model):
 
     image_tmb.short_description = "превью"
     image_tmb.allow_tags = True
+
+
+class User(django.contrib.auth.models.User):
+    objects = UserManager()
+
+    def active(self):
+        return self.is_active
+
+    class Meta:
+        proxy = True
 
 
 __all__ = []

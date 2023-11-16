@@ -57,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "lyceum.middleware.ChangeRequestUserMiddleware",
     "lyceum.middleware.ReversRussionWordsMiddleware",
 ]
 
@@ -141,13 +142,17 @@ LANGUAGES = [
     ("en", django.utils.translation.gettext_lazy("English")),
     ("ru", django.utils.translation.gettext_lazy("Russian")),
 ]
+
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = LOGIN_URL
+
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
 EMAIL_FILE_PATH = BASE_DIR / "send_mail"
+
+AUTHENTICATION_BACKENDS = ["users.backends.EmailOrUsernameModelBackend"]
 
 __all__ = []

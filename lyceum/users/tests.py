@@ -2,6 +2,7 @@ import unittest.mock
 
 import django.conf
 import django.contrib.auth.models
+import django.contrib.auth.views
 import django.forms.models
 import django.test
 import django.urls
@@ -209,6 +210,41 @@ class FormTests(django.test.TestCase):
             False,
             django.contrib.auth.models.User.objects.last().is_active,
         )
+
+    @django.test.override_settings(
+        DEFAULT_USER_IS_ACTIVE=True,
+    )
+    def test_login_with_mail_or_username(self):
+        new_user = {
+            "email": "test@test.com",
+            "username": "test",
+            "password1": "sdvfga2#QAZ",
+            "password2": "sdvfga2#QAZ",
+        }
+        django.test.Client().post(
+            django.urls.reverse("users:signup"),
+            data=new_user,
+        )
+        user_with_mail = {
+            "username": "test@test.com",
+            "password": "sdvfga2#QAZ",
+        }
+        user_with_username = {
+            "username": "test",
+            "password": "sdvfga2#QAZ",
+        }
+        self.client.login(**user_with_mail)
+        response = self.client.get(
+            django.urls.reverse("homepage:home"),
+        )
+        self.assertEqual(new_user["email"], response.context["user"].email)
+        self.client.logout()
+
+        self.client.login(**user_with_username)
+        response = self.client.get(
+            django.urls.reverse("homepage:home"),
+        )
+        self.assertEqual(new_user["email"], response.context["user"].email)
 
 
 __all__ = []

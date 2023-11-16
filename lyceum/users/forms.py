@@ -8,7 +8,7 @@ import users.models
 class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
     email = django.forms.EmailField(required=True)
 
-    class Meta:
+    class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
         model = django.contrib.auth.models.User
         fields = (model.username.field.name, model.email.field.name)
 
@@ -21,6 +21,11 @@ class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
 
 
 class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
+
     password = None
 
     class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
@@ -37,6 +42,8 @@ class ProfileChangeForm(django.forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["coffee_count"].widget.attrs["disabled"] = True
         self.fields["coffee_count"].required = False
+        for field in self.visible_fields():
+            field.field.widget.attrs["class"] = "form-control"
 
     def clean_coffee_count(self):
         instance = getattr(self, "instance", None)
@@ -57,19 +64,10 @@ class ProfileChangeForm(django.forms.ModelForm):
         }
 
         widgets = {
-            model.image.field.name: django.forms.FileInput(
-                attrs={
-                    "class": "form-control",
-                },
-            ),
             model.birthday.field.name: django.forms.DateInput(
                 attrs={
                     "type": "date",
-                    "class": "form-control",
                 },
-            ),
-            model.coffee_count.field.name: django.forms.TextInput(
-                attrs={"class": "form-control"},
             ),
         }
 
