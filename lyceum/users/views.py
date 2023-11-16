@@ -12,6 +12,11 @@ import users.models
 
 
 def signup(request):
+    if "load_count" in request.session:
+        request.session["load_count"] += 1
+    else:
+        count = 1
+        request.session["load_count"] = count
     template = "users/signup.html"
     form = users.forms.UserCreationForm(request.POST or None)
 
@@ -71,6 +76,28 @@ def activate(request, username):
             "Вы успешно активировали аккаунт",
         )
         return django.shortcuts.redirect("users:login")
+    raise django.shortcuts.Http404
+
+
+def reactivate(request, username):
+    user = django.shortcuts.get_object_or_404(
+        django.contrib.auth.models.User,
+        username=username,
+    )
+    if user.profile.reactivate_time is not None:
+        if user.profile.reactivate_time >= (
+            django.utils.timezone.now()
+            - django.utils.timezone.timedelta(weeks=1)
+        ):
+            user.is_active = True
+            user.save()
+            django.contrib.messages.success(
+                request,
+                "Вы успешно вернули статус активности вашему аккаунту",
+            )
+            user.profile.reactivate_time = None
+            user.profile.save()
+            return django.shortcuts.redirect("users:login")
     raise django.shortcuts.Http404
 
 

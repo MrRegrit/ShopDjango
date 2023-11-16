@@ -7,6 +7,7 @@ import django.forms.models
 import django.test
 import django.urls
 import django.utils.timezone
+import parameterized
 
 import users.forms
 import users.models
@@ -245,6 +246,75 @@ class FormTests(django.test.TestCase):
             django.urls.reverse("homepage:home"),
         )
         self.assertEqual(new_user["email"], response.context["user"].email)
+
+    @parameterized.parameterized.expand(
+        [
+            ("t.e.s.t+test@gmail.com", "test@gmail.com"),
+            ("t.e.s.t+test+test@ya.ru", "t-e-s-t@yandex.ru"),
+        ],
+    )
+    def test_normalize_email(self, email, norm_email):
+        new_user = {
+            "email": email,
+            "username": "test",
+            "password1": "sdvfga2#QAZ",
+            "password2": "sdvfga2#QAZ",
+        }
+        django.test.Client().post(
+            django.urls.reverse("users:signup"),
+            data=new_user,
+        )
+        self.assertEqual(
+            django.contrib.auth.models.User.objects.last().email,
+            norm_email,
+        )
+        self.client.login(username=email, password=new_user["password1"])
+        response = self.client.get(
+            django.urls.reverse("homepage:home"),
+        )
+        self.assertEqual(response.context["user"].email, norm_email)
+
+    @django.test.override_settings(
+        MAX_AUTH_ATTEMPTS=3,
+    )
+    def test_deactivate_user_attempts(self):
+        new_user = {
+            "email": "test@test.com",
+            "username": "test",
+            "password1": "sdvfga2#QAZ",
+            "password2": "sdvfga2#QAZ",
+        }
+        login_user = {
+            "username": "test",
+            "password": "123432",
+        }
+
+        django.test.Client().post(
+            django.urls.reverse("users:signup"),
+            data=new_user,
+        )
+        for i in range(3):
+            django.test.Client().post(
+                django.urls.reverse("users:login"),
+                data=login_user,
+            )
+
+        self.assertEqual(
+            django.contrib.auth.models.User.objects.last().is_active,
+            False,
+        )
+
+        django.test.Client().get(
+            django.urls.reverse(
+                "users:reactivate",
+                args=[django.contrib.auth.models.User.objects.last().username],
+            ),
+        )
+
+        self.assertEqual(
+            django.contrib.auth.models.User.objects.last().is_active,
+            True,
+        )
 
 
 __all__ = []

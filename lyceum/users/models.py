@@ -50,6 +50,15 @@ class Profile(django.db.models.Model):
         default=0,
         verbose_name="количество переходов по /coffee/",
     )
+    attempts_count = django.db.models.PositiveIntegerField(
+        default=0,
+        verbose_name="попытки входа в аккаунт",
+    )
+    reactivate_time = django.db.models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name="время отправки ссылки на переактивацию аккаунта",
+    )
 
     class Meta:
         verbose_name = "Дополнительное поле"

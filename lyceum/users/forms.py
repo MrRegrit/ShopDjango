@@ -2,11 +2,16 @@ import django.contrib.auth.forms
 import django.contrib.auth.models
 import django.forms
 
+import users.backends
 import users.models
 
 
 class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
     email = django.forms.EmailField(required=True)
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        return users.backends.normalize_email(email)
 
     class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
         model = django.contrib.auth.models.User

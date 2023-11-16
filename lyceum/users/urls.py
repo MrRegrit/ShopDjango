@@ -16,6 +16,11 @@ urlpatterns = [
         users.views.activate,
         name="activate",
     ),
+    django.urls.path(
+        "reactivate/<str:username>/",
+        users.views.reactivate,
+        name="reactivate",
+    ),
     django.urls.path("user_list/", users.views.user_list, name="user_list"),
     django.urls.path(
         "user_detail/<int:pk>/",

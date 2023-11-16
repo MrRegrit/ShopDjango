@@ -12,6 +12,13 @@ def load_bool(name, default):
     return env_value in ("t", "true", "yes", "1", "y")
 
 
+def load_integer(name, default):
+    env_value = os.getenv(name, str(default))
+    if env_value.isdigit():
+        return int(env_value)
+    return 0
+
+
 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "secret_key")
@@ -23,6 +30,8 @@ ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "*").split(",")
 ALLOW_REVERSE = load_bool("DJANGO_ALLOW_REVERSE", False)
 
 MAIL = os.getenv("DJANGO_MAIL", "exemple@mail.com")
+
+MAX_AUTH_ATTEMPTS = load_integer("MAX_AUTH_ATTEMPTS", 3)
 
 if DEBUG:
     DEFAULT_USER_IS_ACTIVE = load_bool("DEFAULT_USER_IS_ACTIVE", True)

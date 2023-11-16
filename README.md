@@ -49,7 +49,6 @@ pip install -r requirements/test.txt
 # Запуск проекта
 ```
 cd lyceum
-python manage.py runserver
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py loaddata fixtures/data.json
