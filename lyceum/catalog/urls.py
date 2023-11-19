@@ -30,4 +30,9 @@ urlpatterns = [
         catalog.views.ItemUnverifiedView.as_view(),
         name="item_unverified",
     ),
+    django.urls.path(
+        "<int:pk>/delete_comment/",
+        catalog.views.ItemDeleteCommentView.as_view(),
+        name="item_delete_comment",
+    ),
 ]

@@ -1,9 +1,26 @@
+import django.contrib.auth.decorators
 import django.db.models
 import django.shortcuts
-import django.utils.timezoneVie
+import django.urls
+import django.utils.timezone
 import django.views.generic
 
+
 import catalog.models
+import rating.forms
+import rating.models
+
+
+class ItemDeleteCommentView(django.views.generic.RedirectView):
+    query_string = True
+    pattern_name = "catalog:item_detail"
+
+    def get_redirect_url(self, *args, **kwargs):
+        rating.models.Rating.objects.filter(
+            item_id=kwargs["pk"],
+            user_id=self.request.user,
+        ).delete()
+        return super().get_redirect_url(*args, **kwargs)
 
 
 class ItemListView(django.views.generic.ListView):
@@ -19,10 +36,14 @@ class ItemListView(django.views.generic.ListView):
         )
 
 
-class ItemDetailView(django.views.generic.DetailView):
+class ItemDetailView(
+    django.views.generic.DetailView,
+    django.views.generic.FormView,
+):
     model = catalog.models.Item
     template_name = "catalog/item.html"
     context_object_name = "item"
+    form_class = rating.forms.RatingForm
 
     def get_queryset(self):
         return (
@@ -52,7 +73,33 @@ class ItemDetailView(django.views.generic.DetailView):
         context["images"] = catalog.models.Images.objects.filter(
             item_id=context["item"],
         ).only("image")
+        context["ratings"] = rating.models.Rating.objects.filter(
+            item_id=context["item"],
+        ).aggregate(django.db.models.Avg("evaluation"))["evaluation__avg"]
+        if self.request.user.is_authenticated:
+            context["user_rating"] = (
+                rating.models.Rating.objects.filter(
+                    item_id=context["item"],
+                    user_id=self.request.user,
+                )
+                .only("evaluation")
+                .first()
+            )
         return context
+
+    def form_valid(self, form):
+        rating.models.Rating.objects.update_or_create(
+            user_id=self.request.user,
+            item_id=self.model.objects.get(pk=self.kwargs["pk"]),
+            defaults={"evaluation": form.cleaned_data.get("evaluation")},
+        )
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return django.urls.reverse(
+            "catalog:item_detail",
+            args=[self.kwargs["pk"]],
+        )
 
 
 class ItemNewView(django.views.generic.ListView):

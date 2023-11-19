@@ -29,6 +29,13 @@ class Rating(django.db.models.Model):
     class Meta:
         verbose_name = "рейтинг"
         verbose_name_plural = "рейтинги"
+        constraints = [
+            django.db.models.UniqueConstraint(
+                "user_id",
+                "item_id",
+                name="unique_rating",
+            ),
+        ]
 
 
 __all__ = []
