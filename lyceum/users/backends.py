@@ -24,6 +24,10 @@ class EmailOrUsernameModelBackend(django.contrib.auth.backends.ModelBackend):
         except users.models.User.DoesNotExist:
             users.models.User().set_password(password)
         else:
+            if not hasattr(user, "profile"):
+                users.models.Profile.objects.create(
+                    user=user,
+                )
             if user.check_password(password):
                 user.profile.attempts_count = 0
                 user.profile.save()
