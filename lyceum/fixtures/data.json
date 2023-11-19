@@ -94,13 +94,6 @@
 },
 {
     "model": "catalog.mainimage",
-    "pk": 11,
-    "fields": {
-        "image": "catalog/main_images/lc4TkYkudZY.jpg"
-    }
-},
-{
-    "model": "catalog.mainimage",
     "pk": 12,
     "fields": {
         "image": "catalog/main_images/MolokClassic_1.jpg"
@@ -115,16 +108,23 @@
 },
 {
     "model": "catalog.mainimage",
-    "pk": 14,
+    "pk": 15,
+    "fields": {
+        "image": "catalog/main_images/Мусорные-контейнеры-для-раздельного-сбора.jpg"
+    }
+},
+{
+    "model": "catalog.mainimage",
+    "pk": 17,
     "fields": {
         "image": "catalog/main_images/musornye-konteynery-2.jpg"
     }
 },
 {
     "model": "catalog.mainimage",
-    "pk": 15,
+    "pk": 19,
     "fields": {
-        "image": "catalog/main_images/Мусорные-контейнеры-для-раздельного-сбора.jpg"
+        "image": "catalog/main_images/lc4TkYkudZY.jpg"
     }
 },
 {
@@ -135,10 +135,10 @@
         "name": "Мусорки с женщиной",
         "text": "<p><strong>Продаются мусорки!!</strong><br />\r\nЖенщина нет! Превосходно!</p>",
         "category": 7,
-        "main_image": 11,
+        "main_image": 19,
         "is_on_main": true,
         "created_at": "2023-10-31T11:22:13.474Z",
-        "updated_at": "2023-10-31T11:22:45.546Z",
+        "updated_at": "2023-11-19T08:57:49.562Z",
         "tags": [
             6,
             7
@@ -190,10 +190,10 @@
         "name": "Зеленые мусорки",
         "text": "<p>Стандартные зеленые мусорки! Удобно, <strong>дешево</strong>, роскошно, сердито!</p>",
         "category": 6,
-        "main_image": 14,
+        "main_image": 17,
         "is_on_main": false,
         "created_at": "2023-10-31T11:29:25.726Z",
-        "updated_at": "2023-10-31T11:29:25.726Z",
+        "updated_at": "2023-11-19T08:50:16.479Z",
         "tags": [
             7,
             11
