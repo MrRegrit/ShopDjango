@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-28 19:57+0700\n"
+"POT-Creation-Date: 2023-11-19 18:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,59 +20,49 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\lyceum\lyceum\settings.py:131
+#: .\lyceum\settings.py:151
 msgid "English"
 msgstr "Английский"
 
-#: .\lyceum\lyceum\settings.py:132
+#: .\lyceum\settings.py:152
 msgid "Russian"
 msgstr "Русский"
 
-#: .\lyceum\templates\about\about.html:4
-#: .\lyceum\templates\includes\footer.html:7
-#: .\lyceum\templates\includes\header.html:14
+#: .\templates\about\about.html:4 .\templates\includes\footer.html:7
+#: .\templates\includes\header.html:20
 msgid "About"
 msgstr "О проекте"
 
-#: .\lyceum\templates\about\about.html:7
+#: .\templates\about\about.html:7
 msgid "We are cool"
-msgstr "Мы крутые! А вы? Если хотите тоже быть крутыми, то покупайте мусорки у нас"
+msgstr ""
+"Мы крутые! А вы? Если хотите тоже быть крутыми, то покупайте мусорки у нас"
 
-#: .\lyceum\templates\base.html:10
+#: .\templates\base.html:10
 msgid "NoTitle"
 msgstr "Заголовок"
 
-#: .\lyceum\templates\base.html:27
+#: .\templates\base.html:27
 msgid "NoContent"
 msgstr "Контента не будет("
 
-#: .\lyceum\templates\catalog\item.html:4
-#: .\lyceum\templates\catalog\item.html:7
-#: .\lyceum\templates\homepage\main.html:14
-msgid "TrashCans"
-msgstr "Мусорка"
-
-#: .\lyceum\templates\catalog\item_list.html:5
-#: .\lyceum\templates\catalog\item_list.html:8
-#: .\lyceum\templates\includes\footer.html:6
-#: .\lyceum\templates\includes\header.html:13
-msgid "ItemList"
-msgstr "Список товаров"
-
-#: .\lyceum\templates\catalog\item_list.html:15
-msgid "CardTitle"
-msgstr "Карточка мусорки"
-
-#: .\lyceum\templates\catalog\item_list.html:16
-msgid "CardText"
-msgstr "Описание тестовой карточки мусорки"
-
-#: .\lyceum\templates\homepage\main.html:5
-#: .\lyceum\templates\includes\footer.html:5
-#: .\lyceum\templates\includes\header.html:12
+#: .\templates\homepage\main.html:5 .\templates\includes\footer.html:5
+#: .\templates\includes\header.html:14
 msgid "Homepage"
 msgstr "Главная"
 
-#: .\lyceum\templates\homepage\main.html:15
-msgid "MainBuyTrashCans"
-msgstr "Покупайте именно эти мусорки! Они лучшие!"
+#: .\templates\includes\footer.html:6 .\templates\includes\header.html:17
+msgid "ItemList"
+msgstr "Список товаров"
+
+#~ msgid "TrashCans"
+#~ msgstr "Мусорка"
+
+#~ msgid "CardTitle"
+#~ msgstr "Карточка мусорки"
+
+#~ msgid "CardText"
+#~ msgstr "Описание тестовой карточки мусорки"
+
+#~ msgid "MainBuyTrashCans"
+#~ msgstr "Покупайте именно эти мусорки! Они лучшие!"
