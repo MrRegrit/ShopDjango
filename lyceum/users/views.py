@@ -12,11 +12,6 @@ import users.models
 
 
 def signup(request):
-    if "load_count" in request.session:
-        request.session["load_count"] += 1
-    else:
-        count = 1
-        request.session["load_count"] = count
     template = "users/signup.html"
     form = users.forms.UserCreationForm(request.POST or None)
 
