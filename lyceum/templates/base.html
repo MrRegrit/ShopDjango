@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html lang="ru">
   <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,11 +17,30 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}"/>
+    <script>
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      document.cookie = "django_timezone=" + timezone;
+    </script>
   </head>
   <body>
     {% include "includes/header.html" %}
+    {% if today_birthdays %}
+      <p class="text-success text-center">Сегодня день рождения у</p>
+      <section class="container d-flex flex-row alert alert-warning justify-content-center gap-2">
+        🎉
+        {% if today_birthdays|length > 10 %}
+        <marquee direction="right">
+        {% endif %}
+            {% for user in today_birthdays %}
+              <span>{{ user.username }}{% if user.email %}({{ user.email }}){% endif %}</span>
+            {% endfor %}
+        {% if today_birthdays|length > 10 %}
+        </marquee>
+        {% endif %}
+        🎉
+      </section>
+    {% endif %}
     <main>
         {% block content %} {% trans "NoContent" %} {% endblock content %}
     </main>

@@ -1,6 +1,6 @@
 import django.db.models
 import django.shortcuts
-import django.utils.timezoneVie
+import django.utils.timezone
 import django.views.generic
 
 import catalog.models

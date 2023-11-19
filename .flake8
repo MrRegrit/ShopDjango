@@ -1,5 +1,5 @@
 [flake8]
-exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,venv,migrations
+exclude = .git,__pycache__,docs/source/conf.py,old,build,dist,venv,.venv,migrations
 application_import_names = catalog,about,core,homepage,lyceum,download,feedback,users
 max-complexity = 10
 inline-quotes = "
