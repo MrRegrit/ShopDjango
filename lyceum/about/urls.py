@@ -5,5 +5,9 @@ import about.views
 app_name = "about"
 
 urlpatterns = [
-    django.urls.path("", about.views.description, name="description"),
+    django.urls.path(
+        "",
+        about.views.DescriptionView.as_view(),
+        name="description",
+    ),
 ]

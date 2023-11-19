@@ -5,17 +5,29 @@ import catalog.views
 app_name = "catalog"
 
 urlpatterns = [
-    django.urls.path("", catalog.views.item_list, name="item_list"),
+    django.urls.path(
+        "",
+        catalog.views.ItemListView.as_view(),
+        name="item_list",
+    ),
     django.urls.path(
         "<int:pk>/",
-        catalog.views.item_detail,
+        catalog.views.ItemDetailView.as_view(),
         name="item_detail",
     ),
-    django.urls.path("new/", catalog.views.item_new, name="item_new"),
-    django.urls.path("friday/", catalog.views.item_friday, name="item_friday"),
+    django.urls.path(
+        "new/",
+        catalog.views.ItemNewView.as_view(),
+        name="item_new",
+    ),
+    django.urls.path(
+        "friday/",
+        catalog.views.ItemFridayView.as_view(),
+        name="item_friday",
+    ),
     django.urls.path(
         "unverified/",
-        catalog.views.item_unverified,
+        catalog.views.ItemUnverifiedView.as_view(),
         name="item_unverified",
     ),
 ]
