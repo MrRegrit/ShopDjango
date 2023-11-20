@@ -1,18 +1,21 @@
 import http
 
 import django.http
-import django.shortcuts
+import django.utils.decorators
 import django.views.decorators.http
+import django.views.generic
 
 import catalog.models
 import homepage.forms
 
 
-def home(request):
-    template = "homepage/main.html"
-    items = catalog.models.Item.objects.on_main()
-    context = {"items": items}
-    return django.shortcuts.render(request, template, context)
+class HomeView(django.views.generic.ListView):
+    model = catalog.models.Item
+    template_name = "homepage/main.html"
+    context_object_name = "items"
+
+    def get_queryset(self):
+        return self.model.objects.on_main()
 
 
 def coffee(request):
@@ -25,14 +28,13 @@ def coffee(request):
     )
 
 
-@django.views.decorators.http.require_GET
-def echo(request):
-    template = "homepage/echo.html"
-    form = homepage.forms.EchoForm(request.POST or None)
-    context = {
-        "form": form,
-    }
-    return django.shortcuts.render(request, template, context)
+@django.utils.decorators.method_decorator(
+    django.views.decorators.http.require_GET,
+    name="dispatch",
+)
+class EchoView(django.views.generic.FormView):
+    template_name = "homepage/echo.html"
+    form_class = homepage.forms.EchoForm
 
 
 @django.views.decorators.http.require_POST
