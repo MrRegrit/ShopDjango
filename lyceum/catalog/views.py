@@ -5,7 +5,6 @@ import django.urls
 import django.utils.timezone
 import django.views.generic
 
-
 import catalog.models
 import rating.forms
 import rating.models
@@ -17,8 +16,8 @@ class ItemDeleteCommentView(django.views.generic.RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         rating.models.Rating.objects.filter(
-            item_id=kwargs["pk"],
-            user_id=self.request.user,
+            item=kwargs["pk"],
+            user=self.request.user,
         ).delete()
         return super().get_redirect_url(*args, **kwargs)
 
@@ -71,27 +70,37 @@ class ItemDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["images"] = catalog.models.Images.objects.filter(
-            item_id=context["item"],
+            item=context[self.context_object_name],
         ).only("image")
         context["ratings"] = rating.models.Rating.objects.filter(
-            item_id=context["item"],
-        ).aggregate(django.db.models.Avg("evaluation"))["evaluation__avg"]
+            item=context[self.context_object_name],
+        ).aggregate(
+            django.db.models.Avg(rating.models.Rating.evaluation.field.name),
+        )[
+            f"{rating.models.Rating.evaluation.field.name}__avg"
+        ]
         if self.request.user.is_authenticated:
             context["user_rating"] = (
                 rating.models.Rating.objects.filter(
-                    item_id=context["item"],
-                    user_id=self.request.user,
+                    item=context[self.context_object_name],
+                    user=self.request.user,
                 )
-                .only("evaluation")
+                .only(rating.models.Rating.evaluation.field.name)
                 .first()
             )
         return context
 
     def form_valid(self, form):
         rating.models.Rating.objects.update_or_create(
-            user_id=self.request.user,
-            item_id=self.model.objects.get(pk=self.kwargs["pk"]),
-            defaults={"evaluation": form.cleaned_data.get("evaluation")},
+            user=self.request.user,
+            item=self.model.objects.get(pk=self.kwargs["pk"]),
+            defaults={
+                rating.models.Rating.evaluation.field.name: (
+                    form.cleaned_data.get(
+                        rating.models.Rating.evaluation.field.name,
+                    ),
+                ),
+            },
         )
         return super().form_valid(form)
 
