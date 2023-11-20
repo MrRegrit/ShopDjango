@@ -19,11 +19,15 @@ class Rating(django.db.models.Model):
         django.conf.settings.AUTH_USER_MODEL,
         on_delete=django.db.models.CASCADE,
         verbose_name="пользователь",
+        related_name="rating",
+        related_query_name="rating",
     )
     item = django.db.models.ForeignKey(
         catalog.models.Item,
         on_delete=django.db.models.CASCADE,
         verbose_name="товар",
+        related_name="rating",
+        related_query_name="rating",
     )
 
     class Meta:
