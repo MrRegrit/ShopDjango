@@ -32,8 +32,8 @@
         {% if today_birthdays|length > 10 %}
         <marquee direction="right">
         {% endif %}
-            {% for user in today_birthdays %}
-              <span>{{ user.username }}{% if user.email %}({{ user.email }}){% endif %}</span>
+            {% for profile in today_birthdays %}
+              <span>{{ profile.user.username }}{% if profile.user.email %}({{ profile.user.email }}){% endif %}</span>
             {% endfor %}
         {% if today_birthdays|length > 10 %}
         </marquee>

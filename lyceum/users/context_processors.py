@@ -5,17 +5,19 @@ import users.models
 
 
 def birthday_users(request):
-    current_date = django.utils.timezone.now().date()
+    current_date = django.utils.timezone.localdate()
+
     birthday_users = (
-        users.models.User.objects.select_related("profile")
+        users.models.Profile.objects
+        .select_related("user")
         .filter(
-            profile__birthday__day=current_date.day,
-            profile__birthday__month=current_date.month,
+            birthday__day=current_date.day,
+            birthday__month=current_date.month,
         )
+        .only("user__username", "user__email")
         .order_by("?")
-        .only("username", "email")
-        .all()
     )
+
     return {"today_birthdays": birthday_users}
 
 
