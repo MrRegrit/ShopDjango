@@ -1,7 +1,6 @@
 import django.contrib.auth.decorators
 import django.db.models
 import django.shortcuts
-
 import django.urls
 import django.utils.timezone
 import django.views.generic

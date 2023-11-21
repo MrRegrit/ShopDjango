@@ -8,8 +8,7 @@ def birthday_users(request):
     current_date = django.utils.timezone.localdate()
 
     birthday_users = (
-        users.models.Profile.objects
-        .select_related("user")
+        users.models.Profile.objects.select_related("user")
         .filter(
             birthday__day=current_date.day,
             birthday__month=current_date.month,

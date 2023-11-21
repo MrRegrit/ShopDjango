@@ -344,12 +344,12 @@ class BirthdayContextProcessorTests(django.test.TestCase):
             password="ImagineUsingAbsoluteImports",
         )
 
-        users.models.Profile.objects.create(
+        cls.birthday_profile = users.models.Profile.objects.create(
             user=cls.birthday_user,
             birthday=cls.mocked_date,
         )
 
-        users.models.Profile.objects.create(
+        cls.regular_profile = users.models.Profile.objects.create(
             user=cls.regular_user,
             birthday=django.utils.timezone.datetime.fromtimestamp(0),
         )
@@ -367,14 +367,14 @@ class BirthdayContextProcessorTests(django.test.TestCase):
         response = client.get(url)
         self.assertIn("today_birthdays", response.context)
 
-    @unittest.mock.patch("django.utils.timezone.now")
+    @unittest.mock.patch("django.utils.timezone.localdate")
     def test_context_validness(self, mocked):
         mocked.return_value = self.mocked_date
         client = django.test.Client()
         response = client.get(django.urls.reverse("catalog:item_list"))
         context = response.context["today_birthdays"]
         self.assertEqual(len(context), 1)
-        self.assertIn(self.birthday_user, context)
+        self.assertIn(self.birthday_profile, context)
 
     @parameterized.parameterized.expand(
         [2020, 2019, 2018],
@@ -386,13 +386,13 @@ class BirthdayContextProcessorTests(django.test.TestCase):
             day=self.birthday_user.profile.birthday.day,
         )
         with unittest.mock.patch(
-            "django.utils.timezone.now",
+            "django.utils.timezone.localdate",
             unittest.mock.Mock(return_value=mocked),
         ):
             client = django.test.Client()
             response = client.get(django.urls.reverse("catalog:item_list"))
             context = response.context["today_birthdays"]
-            self.assertIn(self.birthday_user, context)
+            self.assertIn(self.birthday_profile, context)
 
     @parameterized.parameterized.expand(
         [
@@ -408,7 +408,7 @@ class BirthdayContextProcessorTests(django.test.TestCase):
             day=day,
         )
         with unittest.mock.patch(
-            "django.utils.timezone.now",
+            "django.utils.timezone.localdate",
             unittest.mock.Mock(return_value=mocked),
         ):
             client = django.test.Client()
@@ -417,11 +417,12 @@ class BirthdayContextProcessorTests(django.test.TestCase):
             self.assertNotIn(self.birthday_user, context)
             self.assertEqual(len(context), 0)
 
-    @unittest.mock.patch("django.utils.timezone.now")
+    @unittest.mock.patch("django.utils.timezone.localdate")
     def test_timezone_shift(self, mocked):
         mocked.return_value = self.mocked_date.astimezone(
             zoneinfo.ZoneInfo("Asia/Tokyo"),
         )
+
         client = django.test.Client()
         response = client.get(django.urls.reverse("catalog:item_list"))
         context = response.context["today_birthdays"]
