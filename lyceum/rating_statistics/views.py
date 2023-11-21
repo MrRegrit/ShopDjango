@@ -13,7 +13,7 @@ import rating.forms
 import rating.models
 
 
-class UserStatistic(
+class UserStatistics(
     django.views.generic.DetailView,
 ):
     model = django.contrib.auth.models.User
@@ -59,11 +59,11 @@ class UserStatistic(
     django.contrib.auth.decorators.login_required,
     name="dispatch",
 )
-class RatingStatistic(
+class ProfileStatistics(
     django.views.generic.TemplateView,
 ):
     model = django.contrib.auth.models.User
-    template_name = "statistics/rating_statistics.html"
+    template_name = "statistics/profile_statistics.html"
     context_object_name = "user"
 
     def get_queryset(self):
@@ -91,7 +91,7 @@ class RatingStatistic(
         return context
 
 
-class ItemStatistic(
+class ItemStatistics(
     django.views.generic.DetailView,
 ):
     model = catalog.models.Item

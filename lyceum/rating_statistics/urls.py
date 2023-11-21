@@ -2,7 +2,7 @@ import django.urls
 
 import rating_statistics.views
 
-app_name = "statistics"
+app_name = "rating_statistics"
 
 urlpatterns = [
     django.urls.path(
@@ -11,9 +11,9 @@ urlpatterns = [
         name="user_statistics",
     ),
     django.urls.path(
-        "rating_statistics/",
-        rating_statistics.views.RatingStatistic.as_view(),
-        name="rating_statistics",
+        "profile_statistics/",
+        rating_statistics.views.ProfileStatistic.as_view(),
+        name="profile_statistics",
     ),
     django.urls.path(
         "item_statistics/<int:pk>/",
