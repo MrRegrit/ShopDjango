@@ -69,6 +69,7 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "lyceum.middleware.ReversRussionWordsMiddleware",
     "users.middleware.ChangeRequestUserMiddleware",
+    "users.middleware.TimezoneMiddleware",
 ]
 
 if DEBUG:
@@ -89,6 +90,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "users.context_processors.birthday_users",
             ],
         },
     },
