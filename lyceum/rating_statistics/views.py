@@ -3,6 +3,7 @@ import django.contrib.auth.models
 import django.db.models
 import django.shortcuts
 import django.urls
+import django.utils.decorators
 import django.utils.timezone
 import django.views.generic
 
@@ -27,31 +28,39 @@ class UserStatistic(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_rating = rating.models.Rating.objects.filter(
-            user_id=context["user"],
+
+        user_rating = (
+            rating.models.Rating.objects.filter(
+                user=context["user"],
+            )
+            .select_related("item")
+            .order_by("-evaluation", "-id")
+            .only(
+                rating.models.Rating.evaluation.field.name,
+                f"{rating.models.Rating.item.field.name}"
+                f"__{catalog.models.Item.name.field.name}",
+            )
         )
+
         context["average_rating"] = user_rating.aggregate(
             django.db.models.Avg("evaluation"),
         )["evaluation__avg"]
         context["ratings_number"] = user_rating.count()
-        context["best_item"] = (
-            user_rating.order_by("-evaluation", "-id").first().item_id
-        )
-        context["worse_item"] = (
-            user_rating.order_by("evaluation", "-id").first().item_id
-        )
+        context["best_item"] = user_rating.first()
+        context["worse_item"] = user_rating.order_by(
+            "evaluation",
+            "-id",
+        ).first()
 
         return context
 
-    def get_success_url(self):
-        return django.urls.reverse(
-            "statistics:user_statistics",
-            args=[self.kwargs["pk"]],
-        )
 
-
+@django.utils.decorators.method_decorator(
+    django.contrib.auth.decorators.login_required,
+    name="dispatch",
+)
 class RatingStatistic(
-    django.views.generic.DetailView,
+    django.views.generic.TemplateView,
 ):
     model = django.contrib.auth.models.User
     template_name = "statistics/rating_statistics.html"
@@ -65,17 +74,21 @@ class RatingStatistic(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["ratings"] = rating.models.Rating.objects.filter(
-            user_id=context["user"],
-        ).order_by("-evaluation")
+
+        context["ratings"] = (
+            rating.models.Rating.objects.filter(
+                user=self.request.user,
+            )
+            .select_related("item")
+            .order_by("-evaluation")
+            .only(
+                rating.models.Rating.evaluation.field.name,
+                f"{rating.models.Rating.item.field.name}"
+                f"__{catalog.models.Item.name.field.name}",
+            )
+        )
 
         return context
-
-    def get_success_url(self):
-        return django.urls.reverse(
-            "statistics:rating_statistics",
-            args=[self.kwargs["pk"]],
-        )
 
 
 class ItemStatistic(
@@ -93,27 +106,32 @@ class ItemStatistic(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        item_rating = rating.models.Rating.objects.filter(
-            item_id=context["item"],
+        item_rating = (
+            rating.models.Rating.objects.filter(
+                item=context["item"],
+            )
+            .select_related("user")
+            .only(
+                rating.models.Rating.evaluation.field.name,
+                f"{rating.models.Rating.user.field.name}"
+                f"__{django.contrib.auth.models.User.username.field.name}",
+            )
         )
+
         context["average_rating"] = item_rating.aggregate(
             django.db.models.Avg("evaluation"),
         )["evaluation__avg"]
         context["ratings_number"] = item_rating.count()
-        context["best_user"] = (
-            item_rating.order_by("-evaluation", "-id").first().user_id
-        )
-        context["worse_user"] = (
-            item_rating.order_by("evaluation", "-id").first().user_id
-        )
+        context["best_user"] = item_rating.order_by(
+            "-evaluation",
+            "-id",
+        ).first()
+        context["worse_user"] = item_rating.order_by(
+            "evaluation",
+            "-id",
+        ).first()
 
         return context
-
-    def get_success_url(self):
-        return django.urls.reverse(
-            "statistics:rating_statistics",
-            args=[self.kwargs["pk"]],
-        )
 
 
 __all__ = []

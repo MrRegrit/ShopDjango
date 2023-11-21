@@ -6,7 +6,9 @@
 	<div class="container">
         <h2>Статистика оценок пользователя {{ user.username }}</h2>
         {% for rating in ratings %}
-        <p><a href="{% url "catalog:item_detail" rating.item_id.id %}">{{ rating.item_id.name }}</a>: {{ rating.evaluation }}</p>
+            <p><a href="{% url "catalog:item_detail" rating.item.id %}">{{ rating.item.name }}</a>: {{ rating.evaluation }}</p>
+        {% empty %}
+            <p>Пользователь еще не оценил ни один товар</p>
         {% endfor %}
 	</div>
 {% endblock %}

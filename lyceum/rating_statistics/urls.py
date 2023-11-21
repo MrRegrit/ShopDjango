@@ -11,7 +11,7 @@ urlpatterns = [
         name="user_statistics",
     ),
     django.urls.path(
-        "rating_statistics/<int:pk>/",
+        "rating_statistics/",
         rating_statistics.views.RatingStatistic.as_view(),
         name="rating_statistics",
     ),

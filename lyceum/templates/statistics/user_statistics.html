@@ -5,9 +5,13 @@
 {% block content %}
 	<div class="container">
 		<h2>Статистика пользователя {{ user.username }}</h2>
-			<p>Средняя оценка: {{ average_rating }}</p>
+			{% if ratings_number == 0 %}
+			<p>Пользователь еще не оценил ни один товар</p>
+			{% else %}
+			<p>Средняя оценка: {{ average_rating|floatformat:2 }}</p>
 			<p>Количество оценок: {{ ratings_number }}</p>
-			<p>Самый любимый товар: <a href="{% url "catalog:item_detail" best_item.id %}">{{ best_item }}</a></p>
-			<p>Самый ненавистный товар: <a href="{% url "catalog:item_detail" worse_item.id %}">{{ worse_item }}</a></p>
+			<p>Самый любимый товар: <a href="{% url "catalog:item_detail" best_item.item.id %}">{{ best_item.item }}</a></p>
+			<p>Самый ненавистный товар: <a href="{% url "catalog:item_detail" worse_item.item.id %}">{{ worse_item.item }}</a></p>
+			{% endif %}
 	</div>
 {% endblock %}
