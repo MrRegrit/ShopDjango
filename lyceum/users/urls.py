@@ -8,7 +8,7 @@ app_name = "users"
 urlpatterns = [
     django.urls.path(
         "signup/",
-        users.views.signup,
+        users.views.SignUpView.as_view(),
         name="signup",
     ),
     django.urls.path(
@@ -21,7 +21,11 @@ urlpatterns = [
         users.views.reactivate,
         name="reactivate",
     ),
-    django.urls.path("user_list/", users.views.user_list, name="user_list"),
+    django.urls.path(
+        "user_list/",
+        users.views.UserListView.as_view(),
+        name="user_list",
+    ),
     django.urls.path(
         "user_detail/<int:pk>/",
         users.views.user_detail,
