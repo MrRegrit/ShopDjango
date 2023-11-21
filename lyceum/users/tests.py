@@ -1,4 +1,6 @@
+import datetime
 import unittest.mock
+import zoneinfo
 
 import django.conf
 import django.contrib.auth.models
@@ -315,6 +317,121 @@ class FormTests(django.test.TestCase):
             django.contrib.auth.models.User.objects.last().is_active,
             True,
         )
+
+
+class BirthdayContextProcessorTests(django.test.TestCase):
+    @classmethod
+    def setUpTestData(cls) -> None:
+        cls.mocked_date = datetime.datetime(
+            year=2020,
+            month=3,
+            day=1,
+            hour=20,
+            tzinfo=datetime.timezone.utc,
+        )
+
+        cls.birthday_user = (
+            django.contrib.auth.models.User.objects.create_user(
+                username="TestUser124",
+                email="TestUser@test.mail",
+                password="SuperGreatPassword",
+            )
+        )
+
+        cls.regular_user = django.contrib.auth.models.User.objects.create_user(
+            username="TestUser125",
+            email="TestUser2@test.mail",
+            password="ImagineUsingAbsoluteImports",
+        )
+
+        cls.birthday_profile = users.models.Profile.objects.create(
+            user=cls.birthday_user,
+            birthday=cls.mocked_date,
+        )
+
+        cls.regular_profile = users.models.Profile.objects.create(
+            user=cls.regular_user,
+            birthday=django.utils.timezone.datetime.fromtimestamp(0),
+        )
+
+    @parameterized.parameterized.expand(
+        [
+            (django.urls.reverse("homepage:home")),
+            (django.urls.reverse("catalog:item_list")),
+            (django.urls.reverse("catalog:item_new")),
+            (django.urls.reverse("catalog:item_friday")),
+        ],
+    )
+    def test_context_presense(self, url):
+        client = django.test.Client()
+        response = client.get(url)
+        self.assertIn("today_birthdays", response.context)
+
+    @unittest.mock.patch("django.utils.timezone.localdate")
+    def test_context_validness(self, mocked):
+        mocked.return_value = self.mocked_date
+        client = django.test.Client()
+        response = client.get(django.urls.reverse("catalog:item_list"))
+        context = response.context["today_birthdays"]
+        self.assertEqual(len(context), 1)
+        self.assertIn(self.birthday_profile, context)
+
+    @parameterized.parameterized.expand(
+        [2020, 2019, 2018],
+    )
+    def test_valid_birthdays(self, year):
+        mocked = datetime.datetime(
+            year=year,
+            month=self.birthday_user.profile.birthday.month,
+            day=self.birthday_user.profile.birthday.day,
+        )
+        with unittest.mock.patch(
+            "django.utils.timezone.localdate",
+            unittest.mock.Mock(return_value=mocked),
+        ):
+            client = django.test.Client()
+            response = client.get(django.urls.reverse("catalog:item_list"))
+            context = response.context["today_birthdays"]
+            self.assertIn(self.birthday_profile, context)
+
+    @parameterized.parameterized.expand(
+        [
+            ("wrong_day", 3, 2),
+            ("wrong_month", 2, 1),
+            ("wrong_day_month", 4, 12),
+        ],
+    )
+    def test_invalid_birthdays(self, test_name, month, day):
+        mocked = datetime.datetime(
+            year=2020,
+            month=month,
+            day=day,
+        )
+        with unittest.mock.patch(
+            "django.utils.timezone.localdate",
+            unittest.mock.Mock(return_value=mocked),
+        ):
+            client = django.test.Client()
+            response = client.get(django.urls.reverse("catalog:item_list"))
+            context = response.context["today_birthdays"]
+            self.assertNotIn(self.birthday_user, context)
+            self.assertEqual(len(context), 0)
+
+    @unittest.mock.patch("django.utils.timezone.localdate")
+    def test_timezone_shift(self, mocked):
+        mocked.return_value = self.mocked_date.astimezone(
+            zoneinfo.ZoneInfo("Asia/Tokyo"),
+        )
+
+        client = django.test.Client()
+        response = client.get(django.urls.reverse("catalog:item_list"))
+        context = response.context["today_birthdays"]
+        self.assertEqual(len(context), 0)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.regular_user.delete()
+        cls.birthday_user.delete()
 
 
 __all__ = []
