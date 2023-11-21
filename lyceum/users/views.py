@@ -6,54 +6,54 @@ import django.contrib.sites.shortcuts
 import django.core.mail
 import django.shortcuts
 import django.utils.timezone
+import django.views.generic
 
 import users.forms
 import users.models
 
 
-def signup(request):
-    template = "users/signup.html"
-    form = users.forms.UserCreationForm(request.POST or None)
+class SignUpView(
+    django.views.generic.FormView,
+):
+    template_name = "users/signup.html"
+    form_class = users.forms.UserCreationForm
 
-    if request.method == "POST":
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            email = form.cleaned_data.get("email")
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        email = form.cleaned_data.get("email")
 
-            form_save = form.save(commit=False)
-            form_save.is_active = django.conf.settings.DEFAULT_USER_IS_ACTIVE
-            form_save.save()
+        form_save = form.save(commit=False)
+        form_save.is_active = django.conf.settings.DEFAULT_USER_IS_ACTIVE
+        form_save.save()
 
-            users.models.Profile.objects.create(user=form.instance)
+        users.models.Profile.objects.create(user=form.instance)
 
-            current_site = django.contrib.sites.shortcuts.get_current_site(
-                request,
-            )
-            reverse_activate = django.shortcuts.reverse(
-                "users:activate",
-                args=[username],
-            )
-            url_to_confirm_register = f"{current_site}{reverse_activate}"
-            django.core.mail.send_mail(
-                "Активация аккаунта",
-                f"Для активации вашего аккаунта перейдите по ссылке:"
-                f"\n{url_to_confirm_register}",
-                django.conf.settings.MAIL,
-                [
-                    email,
-                ],
-                fail_silently=False,
-            )
-            django.contrib.messages.success(
-                request,
-                "Активируйте аккаунт перейдя по ссылке в почте!",
-            )
-            return django.shortcuts.redirect("users:signup")
+        current_site = django.contrib.sites.shortcuts.get_current_site(
+            self.request,
+        )
+        reverse_activate = django.shortcuts.reverse(
+            "users:activate",
+            args=[username],
+        )
+        url_to_confirm_register = f"{current_site}{reverse_activate}"
+        django.core.mail.send_mail(
+            "Активация аккаунта",
+            f"Для активации вашего аккаунта перейдите по ссылке:"
+            f"\n{url_to_confirm_register}",
+            django.conf.settings.MAIL,
+            [
+                email,
+            ],
+            fail_silently=False,
+        )
+        django.contrib.messages.success(
+            self.request,
+            "Активируйте аккаунт перейдя по ссылке в почте!",
+        )
+        return super().form_valid(form)
 
-    context = {
-        "form": form,
-    }
-    return django.shortcuts.render(request, template, context)
+    def get_success_url(self):
+        return django.urls.reverse("users:signup")
 
 
 def activate(request, username):
@@ -113,22 +113,24 @@ def user_detail(request, pk):
     return django.shortcuts.render(request, template, context)
 
 
-def user_list(request):
-    template = "users/user_list.html"
-    profiles = (
-        users.models.Profile.objects.filter(user__is_active=True)
-        .select_related("user")
-        .only(
-            "birthday",
-            "image",
-            "coffee_count",
-            "user__email",
-            "user__last_name",
-            "user__first_name",
+class UserListView(django.views.generic.ListView):
+    model = users.models.Profile
+    template_name = "users/user_list.html"
+    context_object_name = "profiles"
+
+    def get_queryset(self):
+        return (
+            self.model.objects.filter(user__is_active=True)
+            .select_related("user")
+            .only(
+                "birthday",
+                "image",
+                "coffee_count",
+                "user__email",
+                "user__last_name",
+                "user__first_name",
+            )
         )
-    )
-    context = {"profiles": profiles}
-    return django.shortcuts.render(request, template, context)
 
 
 @django.contrib.auth.decorators.login_required
