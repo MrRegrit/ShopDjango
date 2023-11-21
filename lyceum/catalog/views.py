@@ -98,7 +98,7 @@ class ItemDetailView(
                 rating.models.Rating.evaluation.field.name: (
                     form.cleaned_data.get(
                         rating.models.Rating.evaluation.field.name,
-                    ),
+                    )
                 ),
             },
         )
