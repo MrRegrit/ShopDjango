@@ -11,10 +11,10 @@
                 <p>Средняя оценка: {{ average_rating|floatformat:2 }}</p>
                 <p>Количество оценок: {{ ratings_number }}</p>
                 {% if best_user == worse_user %}
-                <p>Последняя оценка: {{ best_user }}</p>
+                <p>Последняя оценка: {{ best_user.user }}</p>
                 {% else %}
-                <p>Лучший пользователь: {{ best_user }}</p>
-                <p>Худший пользователь: {{ worse_user }}</p>
+                <p>Лучший пользователь: {{ best_user.user }}</p>
+                <p>Худший пользователь: {{ worse_user.user }}</p>
                 {% endif %}
             {% endif %}
 
