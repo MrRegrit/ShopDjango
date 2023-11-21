@@ -12,6 +12,10 @@ urlpatterns = [
     django.urls.path("download/", django.urls.include("download.urls")),
     django.urls.path("feedback/", django.urls.include("feedback.urls")),
     django.urls.path("auth/", django.urls.include("users.urls")),
+    django.urls.path(
+        "statistics/",
+        django.urls.include("rating_statistics.urls"),
+    ),
     django.urls.path("auth/", django.urls.include(django.contrib.auth.urls)),
     django.urls.path("admin/", django.contrib.admin.site.urls),
 ]

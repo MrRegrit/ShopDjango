@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "homepage.apps.HomepageConfig",
     "rating.apps.RatingConfig",
     "users.apps.UsersConfig",
+    "rating_statistics.apps.RatingStatisticsConfig",
 ]
 
 MIDDLEWARE = [
