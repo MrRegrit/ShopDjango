@@ -8,6 +8,10 @@
 ![DataBase](ER.jpg)
 
 # Установка 
+## Клонирование репозитория
+```
+git clone https://gitlab.crja72.ru/django_2023/students/142182-renatgaboff-course-967.git
+```
 ## Создание виртуального окружения
 ### Для Linux
 ```
@@ -46,27 +50,22 @@ pip install -r requirements/dev.txt
 pip install -r requirements/test.txt
 ```
 
-# Запуск проекта
+## Перейдите в директорию lyceum
 ```
 cd lyceum
+```
+
+## Создание локализации
+```
+django-admin makemessages -l ru
+django-admin makemessages -l en
+django-admin compilemessages
+```
+
+# Запуск проекта
+```
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py loaddata fixtures/data.json
 python manage.py runserver
-```
-
-## Настройка собственного языкового пакета
-### Добавьте в LANGUAGES в файле lyceum/lyceum/settings.py
-```
-("ru", django.utils.translation.gettext_lazy("Russian"))
-```
-Вместо "ru" код вашего языка и вместо "Russian" название вашего языка на английском
-### Для создания файла языкового пакета
-```
-django-admin makemessages -l ru
-```
-Вместо ru используйте введеный ранее код вашего языка
-### Для компиляции файлов языковых пакетов
-```
-django-admin compilemessages
 ```

@@ -10,7 +10,7 @@
         {% for item in items %}
             {% include "includes/item_card.html" with name=item.name text=item.text id=item.id category=item.category.name tags=item.tags %}
             {% empty %}
-            <p>Спиоск пуст!</p>
+            <p>{% trans "List is empty" %}</p>
         {% endfor %}
     </div>
     </div>

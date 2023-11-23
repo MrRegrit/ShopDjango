@@ -13,7 +13,7 @@
                 {% include "includes/item_card.html" with name=item.name text=item.text id=item.id category=item.category.name tags=item.tags %}
             </div>
             {% empty %}
-            <p>Спиоск пуст!</p>
+            <p>{% trans "List is empty" %}!</p>
         {% endfor %}
     </div>
 {% endblock content %}

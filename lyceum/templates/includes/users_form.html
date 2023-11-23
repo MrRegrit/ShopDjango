@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="container">
     <h1 class="text-center logo my-4">
         {{ label }}
@@ -42,8 +43,8 @@
                     </form>
                 </div>
                 <div class="card-footer text-muted text-center">
-                    Нет аккаунта? <a href="{% url "users:signup" %}">Зарегистрироваться</a><br>
-                    Забыли пароль? <a href="{% url "users:password_reset" %}">Восстоновить</a>
+                    Нет аккаунта? <a href="{% url "users:signup" %}">{% trans "Signup" %}</a><br>
+                    Забыли пароль? <a href="{% url "users:password_reset" %}">{% trans "Reset" %}</a>
                 </div>
             </div>
         </div>

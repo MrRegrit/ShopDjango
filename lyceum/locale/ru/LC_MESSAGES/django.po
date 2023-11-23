@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-19 18:10+0300\n"
+"POT-Creation-Date: 2023-11-23 13:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\lyceum\settings.py:151
+#: .\lyceum\settings.py:155
 msgid "English"
 msgstr "Английский"
 
-#: .\lyceum\settings.py:152
+#: .\lyceum\settings.py:156
 msgid "Russian"
 msgstr "Русский"
 
@@ -38,13 +38,22 @@ msgid "We are cool"
 msgstr ""
 "Мы крутые! А вы? Если хотите тоже быть крутыми, то покупайте мусорки у нас"
 
-#: .\templates\base.html:10
+#: .\templates\base.html:9
 msgid "NoTitle"
 msgstr "Заголовок"
 
-#: .\templates\base.html:27
+#: .\templates\base.html:45
 msgid "NoContent"
 msgstr "Контента не будет("
+
+#: .\templates\catalog\item_list.html:16 .\templates\homepage\main.html:13
+#: .\templates\users\user_list.html:44
+msgid "List is empty"
+msgstr "Список пуст"
+
+#: .\templates\feedback\feedback.html:21 .\templates\homepage\echo.html:12
+msgid "Send"
+msgstr "Отправить"
 
 #: .\templates\homepage\main.html:5 .\templates\includes\footer.html:5
 #: .\templates\includes\header.html:14
@@ -54,6 +63,76 @@ msgstr "Главная"
 #: .\templates\includes\footer.html:6 .\templates\includes\header.html:17
 msgid "ItemList"
 msgstr "Список товаров"
+
+#: .\templates\includes\header.html:24
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#: .\templates\includes\header.html:28
+msgid "UserList"
+msgstr "Список пользователей"
+
+#: .\templates\includes\header.html:31
+msgid "AdminPanel"
+msgstr "Админка"
+
+#: .\templates\includes\header.html:34 .\templates\users\profile.html:9
+msgid "Profile"
+msgstr "Профиль"
+
+#: .\templates\includes\header.html:36
+msgid "Login"
+msgstr "Войти"
+
+#: .\templates\includes\users_form.html:46
+msgid "Signup"
+msgstr "Зарегестрироваться"
+
+#: .\templates\includes\users_form.html:47
+msgid "Reset"
+msgstr "Восстановить"
+
+#: .\templates\users\profile.html:55
+msgid "DrinkCoffee"
+msgstr "Попить кофе"
+
+#: .\templates\users\profile.html:58
+msgid "Statistics"
+msgstr "Статистика"
+
+#: .\templates\users\profile.html:61
+msgid "ChangeData"
+msgstr "Изменить данные"
+
+#: .\templates\users\profile.html:64
+msgid "Logout"
+msgstr "Выйти"
+
+#: .\templates\users\user_detail.html:18 .\templates\users\user_list.html:19
+msgid "Birthday"
+msgstr "Дата рождения"
+
+#: .\templates\users\user_detail.html:22 .\templates\users\user_detail.html:29
+#: .\templates\users\user_detail.html:35 .\templates\users\user_list.html:23
+#: .\templates\users\user_list.html:30 .\templates\users\user_list.html:36
+msgid "not specified"
+msgstr "неуказано"
+
+#: .\templates\users\user_detail.html:24 .\templates\users\user_list.html:25
+msgid "coffeeCount"
+msgstr "Выпито кофе"
+
+#: .\templates\users\user_detail.html:25 .\templates\users\user_list.html:26
+msgid "Name"
+msgstr "Имя"
+
+#: .\templates\users\user_detail.html:31 .\templates\users\user_list.html:32
+msgid "Surname"
+msgstr "Фамилия"
+
+#: .\templates\users\user_list.html:38
+msgid "UserStatisics"
+msgstr "Статистика пользователя"
 
 #~ msgid "TrashCans"
 #~ msgstr "Мусорка"

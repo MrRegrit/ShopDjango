@@ -15,24 +15,24 @@
 
                     <div class="card-body h-100">
                         <h5 class="card-title">{{ profile.user.email }}</h5>
-                        Дата рождения:
+                        {% trans "Birthday" %}:
                         {% if profile.birthday %}
                             {{ profile.birthday }}
                         {% else %}
-                            <b>неуказано</b>
+                            <b>{% trans "not specified" %}</b>
                         {% endif %} <br>
-                        Количество питья коффе: {{ profile.coffee_count }}<br>
-                        Имя:
+                        {% trans "coffeeCount" %}: {{ profile.coffee_count }}<br>
+                        {% trans "Name" %}:
                         {% if profile.user.first_name %}
                             {{ profile.user.first_name }}
                         {% else %}
-                            <b>неуказано</b>
+                            <b>{% trans "not specified" %}</b>
                         {% endif %}<br>
-                        Фамилия:
+                        {% trans "Surname" %}:
                         {% if profile.user.last_name %}
                             {{ profile.user.last_name }}
                         {% else %}
-                            <b>неуказано</b>
+                            <b>{% trans "not specified" %}</b>
                         {% endif %}
                     </div>
                 </div>

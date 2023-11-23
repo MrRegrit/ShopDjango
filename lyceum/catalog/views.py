@@ -29,10 +29,7 @@ class ItemListView(django.views.generic.ListView):
     extra_context = {"title": "Список товаров"}
 
     def get_queryset(self):
-        return self.model.objects.published().order_by(
-            "category",
-            "name",
-        )
+        return self.model.objects.published()
 
 
 class ItemDetailView(
@@ -45,27 +42,7 @@ class ItemDetailView(
     form_class = rating.forms.RatingForm
 
     def get_queryset(self):
-        return (
-            self.model.objects.filter(is_published=True)
-            .select_related("category")
-            .select_related("main_image")
-            .prefetch_related(
-                django.db.models.Prefetch(
-                    "tags",
-                    queryset=catalog.models.Tag.objects.filter(
-                        is_published=True,
-                    ).only(
-                        "name",
-                    ),
-                ),
-            )
-            .only(
-                "name",
-                "text",
-                "category__name",
-                "main_image__image",
-            )
-        )
+        return self.model.objects.detail()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -134,8 +111,8 @@ class ItemNewView(django.views.generic.ListView):
                 self.model.objects.published()
                 .filter(id__in=my_ids)
                 .order_by(
-                    "category",
-                    "name",
+                    catalog.models.Item.category.field.name,
+                    catalog.models.Item.name.field.name,
                 )
             )
         return None
@@ -151,7 +128,7 @@ class ItemFridayView(django.views.generic.ListView):
         my_ids = (
             catalog.models.Item.objects.published()
             .filter(updated_at__week_day=6)
-            .order_by("updated_at")
+            .order_by(catalog.models.Item.updated_at.field.name)
             .values_list("id", flat=True)[:5]
         )
         if my_ids:
@@ -159,8 +136,8 @@ class ItemFridayView(django.views.generic.ListView):
                 catalog.models.Item.objects.published()
                 .filter(id__in=my_ids)
                 .order_by(
-                    "category",
-                    "name",
+                    catalog.models.Item.category.field.name,
+                    catalog.models.Item.name.field.name,
                 )
             )
         return None
@@ -173,13 +150,10 @@ class ItemUnverifiedView(django.views.generic.ListView):
     extra_context = {"title": "Непроверенное"}
 
     def get_queryset(self):
-        return (
-            self.model.objects.published()
-            .filter(created_at=django.db.models.F("updated_at"))
-            .order_by(
-                "category",
-                "name",
-            )
+        return self.model.objects.published().filter(
+            created_at=django.db.models.F(
+                catalog.models.Item.updated_at.field.name,
+            ),
         )
 
 

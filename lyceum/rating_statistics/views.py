@@ -22,34 +22,27 @@ class UserStatistics(
 
     def get_queryset(self):
         return self.model.objects.filter().only(
-            "id",
-            "username",
+            django.contrib.auth.models.User.username.field.name,
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        user_rating = (
-            rating.models.Rating.objects.filter(
-                user=context["user"],
-            )
-            .select_related("item")
-            .order_by("-evaluation", "-id")
-            .only(
-                rating.models.Rating.evaluation.field.name,
-                f"{rating.models.Rating.item.field.name}"
-                f"__{catalog.models.Item.name.field.name}",
-            )
+        user_rating = rating.models.Rating.objects.user_rating(
+            context["user"],
+        ).order_by(
+            f"-{rating.models.Rating.evaluation.field.name}",
+            f"-{rating.models.Rating.id.field.name}",
         )
 
         context["average_rating"] = user_rating.aggregate(
-            django.db.models.Avg("evaluation"),
+            django.db.models.Avg(rating.models.Rating.evaluation.field.name),
         )["evaluation__avg"]
         context["ratings_number"] = user_rating.count()
         context["best_item"] = user_rating.first()
         context["worse_item"] = user_rating.order_by(
-            "evaluation",
-            "-id",
+            rating.models.Rating.evaluation.field.name,
+            f"-{rating.models.Rating.id.field.name}",
         ).first()
 
         return context
@@ -68,25 +61,15 @@ class ProfileStatistics(
 
     def get_queryset(self):
         return self.model.objects.filter().only(
-            "id",
-            "username",
+            django.contrib.auth.models.User.username.field.name,
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["ratings"] = (
-            rating.models.Rating.objects.filter(
-                user=self.request.user,
-            )
-            .select_related("item")
-            .order_by("-evaluation")
-            .only(
-                rating.models.Rating.evaluation.field.name,
-                f"{rating.models.Rating.item.field.name}"
-                f"__{catalog.models.Item.name.field.name}",
-            )
-        )
+        context["ratings"] = rating.models.Rating.objects.user_rating(
+            user=self.request.user,
+        ).order_by(f"-{rating.models.Rating.evaluation.field.name}")
 
         return context
 
@@ -100,35 +83,26 @@ class ItemStatistics(
 
     def get_queryset(self):
         return self.model.objects.filter().only(
-            "id",
-            "name",
+            catalog.models.Item.name.field.name,
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        item_rating = (
-            rating.models.Rating.objects.filter(
-                item=context["item"],
-            )
-            .select_related("user")
-            .only(
-                rating.models.Rating.evaluation.field.name,
-                f"{rating.models.Rating.user.field.name}"
-                f"__{django.contrib.auth.models.User.username.field.name}",
-            )
+        item_rating = rating.models.Rating.objects.item_rating(
+            item=context["item"],
         )
 
         context["average_rating"] = item_rating.aggregate(
-            django.db.models.Avg("evaluation"),
+            django.db.models.Avg(rating.models.Rating.evaluation.field.name),
         )["evaluation__avg"]
         context["ratings_number"] = item_rating.count()
         context["best_user"] = item_rating.order_by(
-            "-evaluation",
-            "-id",
+            f"-{rating.models.Rating.evaluation.field.name}",
+            f"-{rating.models.Rating.id.field.name}",
         ).first()
         context["worse_user"] = item_rating.order_by(
-            "evaluation",
-            "-id",
+            f"{rating.models.Rating.evaluation.field.name}",
+            f"-{rating.models.Rating.id.field.name}",
         ).first()
 
         return context

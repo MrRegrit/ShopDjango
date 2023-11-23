@@ -1,9 +1,10 @@
 import django.forms
 
+import core.mixins
 import feedback.models
 
 
-class FeedbackForm(django.forms.ModelForm):
+class FeedbackForm(django.forms.ModelForm, core.mixins.FormControlMixin):
     class Meta:
         model = feedback.models.Feedback
 
@@ -19,17 +20,12 @@ class FeedbackForm(django.forms.ModelForm):
 
         widgets = {
             model.text.field.name: django.forms.Textarea(
-                attrs={"type": "text", "rows": 3, "class": "form-control"},
+                attrs={"type": "text", "rows": 3},
             ),
         }
 
 
-class FeedbackExtraForm(django.forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
-
+class FeedbackExtraForm(django.forms.ModelForm, core.mixins.FormControlMixin):
     class Meta:
         model = feedback.models.FeedbackExtra
 
@@ -54,7 +50,7 @@ class FeedbackExtraForm(django.forms.ModelForm):
         }
 
 
-class FeedbackFilesForm(django.forms.ModelForm):
+class FeedbackFilesForm(django.forms.ModelForm, core.mixins.FormControlMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["file"].required = False
@@ -75,7 +71,6 @@ class FeedbackFilesForm(django.forms.ModelForm):
         widgets = {
             model.file.field.name: django.forms.FileInput(
                 attrs={
-                    "class": "form-control",
                     "multiple": True,
                 },
             ),
