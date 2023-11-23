@@ -4,6 +4,7 @@ import django.db.models
 import django.utils
 import sorl.thumbnail
 
+import catalog.managers
 import catalog.validators
 import core.models
 
@@ -127,29 +128,8 @@ class MainImage(django.db.models.Model):
     image_tmb.allow_tags = True
 
 
-class ItemManager(django.db.models.Manager):
-    def published(self):
-        return (
-            self.get_queryset()
-            .filter(is_published=True, category__is_published=True)
-            .select_related("category")
-            .prefetch_related(
-                django.db.models.Prefetch(
-                    "tags",
-                    queryset=Tag.objects.filter(is_published=True).only(
-                        "name",
-                    ),
-                ),
-            )
-            .only("name", "text", "category__name")
-        )
-
-    def on_main(self):
-        return self.published().filter(is_on_main=True)
-
-
 class Item(core.models.PublishedAndNameAbstractModel):
-    objects = ItemManager()
+    objects = catalog.managers.ItemManager()
     text = ckeditor.fields.RichTextField(
         verbose_name="текст",
         help_text="Описание должно содержать слова "

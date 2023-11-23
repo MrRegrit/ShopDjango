@@ -2,10 +2,14 @@ import django.contrib.auth.forms
 import django.contrib.auth.models
 import django.forms
 
+import core.mixins
 import users.models
 
 
-class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
+class UserCreationForm(
+    django.contrib.auth.forms.UserCreationForm,
+    core.mixins.FormControlMixin,
+):
     email = django.forms.EmailField(required=True)
 
     class Meta(django.contrib.auth.forms.UserCreationForm.Meta):
@@ -13,12 +17,10 @@ class UserCreationForm(django.contrib.auth.forms.UserCreationForm):
         fields = (model.username.field.name, model.email.field.name)
 
 
-class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
-
+class UserChangeForm(
+    django.contrib.auth.forms.UserChangeForm,
+    core.mixins.FormControlMixin,
+):
     password = None
 
     class Meta(django.contrib.auth.forms.UserChangeForm.Meta):
@@ -30,13 +32,11 @@ class UserChangeForm(django.contrib.auth.forms.UserChangeForm):
         )
 
 
-class ProfileChangeForm(django.forms.ModelForm):
+class ProfileChangeForm(django.forms.ModelForm, core.mixins.FormControlMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["coffee_count"].widget.attrs["disabled"] = True
         self.fields["coffee_count"].required = False
-        for field in self.visible_fields():
-            field.field.widget.attrs["class"] = "form-control"
 
     def clean_coffee_count(self):
         instance = getattr(self, "instance", None)

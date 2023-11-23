@@ -2,9 +2,12 @@ import django.conf
 import django.db.models
 
 import catalog.models
+import rating.managers
 
 
 class Rating(django.db.models.Model):
+    objects = rating.managers.RatingManager()
+
     evaluation = django.db.models.IntegerField(
         choices=(
             (1, "Ненависть"),

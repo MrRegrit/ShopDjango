@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-28 19:57+0700\n"
+"POT-Creation-Date: 2023-11-23 13:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,59 +18,128 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\lyceum\lyceum\settings.py:131
+#: .\lyceum\settings.py:155
 msgid "English"
 msgstr "English"
 
-#: .\lyceum\lyceum\settings.py:132
+#: .\lyceum\settings.py:156
 msgid "Russian"
 msgstr "Russian"
 
-#: .\lyceum\templates\about\about.html:4
-#: .\lyceum\templates\includes\footer.html:7
-#: .\lyceum\templates\includes\header.html:14
+#: .\templates\about\about.html:4 .\templates\includes\footer.html:7
+#: .\templates\includes\header.html:20
 msgid "About"
 msgstr "About"
 
-#: .\lyceum\templates\about\about.html:7
+#: .\templates\about\about.html:7
 msgid "We are cool"
-msgstr "We're cool! And you? If you want to be cool too, then buy trash cans from us"
+msgstr ""
+"We're cool! And you? If you want to be cool too, then buy trash cans from us"
 
-#: .\lyceum\templates\base.html:10
+#: .\templates\base.html:9
 msgid "NoTitle"
 msgstr "Title"
 
-#: .\lyceum\templates\base.html:27
+#: .\templates\base.html:45
 msgid "NoContent"
 msgstr "There is no content("
 
-#: .\lyceum\templates\catalog\item.html:4
-#: .\lyceum\templates\catalog\item.html:7
-#: .\lyceum\templates\homepage\main.html:14
-msgid "TrashCans"
-msgstr "Trashcan"
+#: .\templates\catalog\item_list.html:16 .\templates\homepage\main.html:13
+#: .\templates\users\user_list.html:44
+msgid "List is empty"
+msgstr "List is empty"
 
-#: .\lyceum\templates\catalog\item_list.html:5
-#: .\lyceum\templates\catalog\item_list.html:8
-#: .\lyceum\templates\includes\footer.html:6
-#: .\lyceum\templates\includes\header.html:13
-msgid "ItemList"
-msgstr "Item list"
+#: .\templates\feedback\feedback.html:21 .\templates\homepage\echo.html:12
+msgid "Send"
+msgstr "Send"
 
-#: .\lyceum\templates\catalog\item_list.html:15
-msgid "CardTitle"
-msgstr "Trash card"
-
-#: .\lyceum\templates\catalog\item_list.html:16
-msgid "CardText"
-msgstr "It`s a test card"
-
-#: .\lyceum\templates\homepage\main.html:5
-#: .\lyceum\templates\includes\footer.html:5
-#: .\lyceum\templates\includes\header.html:12
+#: .\templates\homepage\main.html:5 .\templates\includes\footer.html:5
+#: .\templates\includes\header.html:14
 msgid "Homepage"
 msgstr "Homepage"
 
-#: .\lyceum\templates\homepage\main.html:15
-msgid "MainBuyTrashCans"
-msgstr "Buy exactly these trash cans! They are the best!"
+#: .\templates\includes\footer.html:6 .\templates\includes\header.html:17
+msgid "ItemList"
+msgstr "Item list"
+
+#: .\templates\includes\header.html:24
+msgid "Feedback"
+msgstr "Feedback"
+
+#: .\templates\includes\header.html:28
+msgid "UserList"
+msgstr "User list"
+
+#: .\templates\includes\header.html:31
+msgid "AdminPanel"
+msgstr "Admin panel"
+
+#: .\templates\includes\header.html:34 .\templates\users\profile.html:9
+msgid "Profile"
+msgstr "Profile"
+
+#: .\templates\includes\header.html:36
+msgid "Login"
+msgstr "Login"
+
+#: .\templates\includes\users_form.html:46
+msgid "Signup"
+msgstr "Signup"
+
+#: .\templates\includes\users_form.html:47
+msgid "Reset"
+msgstr "Reset password"
+
+#: .\templates\users\profile.html:55
+msgid "DrinkCoffee"
+msgstr "Drink coffee"
+
+#: .\templates\users\profile.html:58
+msgid "Statistics"
+msgstr "Statistics"
+
+#: .\templates\users\profile.html:61
+msgid "ChangeData"
+msgstr "Change data"
+
+#: .\templates\users\profile.html:64
+msgid "Logout"
+msgstr "Logout"
+
+#: .\templates\users\user_detail.html:18 .\templates\users\user_list.html:19
+msgid "Birthday"
+msgstr "Birthday"
+
+#: .\templates\users\user_detail.html:22 .\templates\users\user_detail.html:29
+#: .\templates\users\user_detail.html:35 .\templates\users\user_list.html:23
+#: .\templates\users\user_list.html:30 .\templates\users\user_list.html:36
+msgid "not specified"
+msgstr "not specified"
+
+#: .\templates\users\user_detail.html:24 .\templates\users\user_list.html:25
+msgid "coffeeCount"
+msgstr "Coffee count"
+
+#: .\templates\users\user_detail.html:25 .\templates\users\user_list.html:26
+msgid "Name"
+msgstr "Name"
+
+#: .\templates\users\user_detail.html:31 .\templates\users\user_list.html:32
+msgid "Surname"
+msgstr "Surname"
+
+#: .\templates\users\user_list.html:38
+msgid "UserStatisics"
+msgstr "User statistics"
+
+#~ msgid "TrashCans"
+#~ msgstr "Trashcan"
+
+#~ msgid "CardTitle"
+#~ msgstr "Trash card"
+
+#~ msgid "CardText"
+#~ msgstr "It`s a test card"
+
+#~ msgid "MainBuyTrashCans"
+#~ msgstr "Buy exactly these trash cans! They are the best!"
