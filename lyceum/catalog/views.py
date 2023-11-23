@@ -46,16 +46,23 @@ class ItemDetailView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context["images"] = catalog.models.Images.objects.filter(
             item=context[self.context_object_name],
         ).only("image")
-        context["ratings"] = rating.models.Rating.objects.filter(
+
+        context["avg_ratings"] = rating.models.Rating.objects.filter(
             item=context[self.context_object_name],
         ).aggregate(
             django.db.models.Avg(rating.models.Rating.evaluation.field.name),
         )[
             f"{rating.models.Rating.evaluation.field.name}__avg"
         ]
+
+        context["count_ratings"] = rating.models.Rating.objects.filter(
+            item=context[self.context_object_name],
+        ).count()
+
         if self.request.user.is_authenticated:
             context["user_rating"] = (
                 rating.models.Rating.objects.filter(

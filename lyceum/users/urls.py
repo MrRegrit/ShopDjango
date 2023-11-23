@@ -13,12 +13,12 @@ urlpatterns = [
     ),
     django.urls.path(
         "activate/<str:username>/",
-        users.views.activate,
+        users.views.ActivateView.as_view(),
         name="activate",
     ),
     django.urls.path(
         "reactivate/<str:username>/",
-        users.views.reactivate,
+        users.views.ReactivateView.as_view(),
         name="reactivate",
     ),
     django.urls.path(
@@ -28,10 +28,14 @@ urlpatterns = [
     ),
     django.urls.path(
         "user_detail/<int:pk>/",
-        users.views.user_detail,
+        users.views.UserDetailView.as_view(),
         name="user_detail",
     ),
-    django.urls.path("profile/", users.views.profile, name="profile"),
+    django.urls.path(
+        "profile/",
+        users.views.ProfileView.as_view(),
+        name="profile",
+    ),
     django.urls.path(
         "login/",
         django.contrib.auth.views.LoginView.as_view(

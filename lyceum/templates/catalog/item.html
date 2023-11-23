@@ -42,14 +42,20 @@
                 <p>{{ item.text|safe }}</p>
 
                 <p>Средняя оценка: <strong>
-                    {% if ratings %}
-                        ⭐️{{ ratings|floatformat:1 }}
+                    {% if avg_ratings %}
+                        ⭐️{{ avg_ratings|floatformat:1 }}
+                    {% else %}
+                        Оценок еще нет
+                    {% endif %} </strong></p>
+                <p>Количество оценок: <strong>
+                    {% if count_ratings %}
+                        {{ count_ratings }}
                     {% else %}
                         Оценок еще нет
                     {% endif %} </strong></p>
                 {% if user.is_authenticated %}
                     {% if user_rating %}
-                        Ваша оценка: {{ user_rating.evaluation }}<br>
+                        <p>Ваша оценка: <strong>{{ user_rating.evaluation }}</strong></p>
                         Изменить оценку:
                     {% else %}
                         Оставить оценку:

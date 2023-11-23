@@ -1,6 +1,6 @@
 import django.contrib.auth.forms
-import django.contrib.auth.models
 import django.forms
+import django.utils.safestring
 
 import core.mixins
 import users.models
@@ -30,6 +30,17 @@ class UserChangeForm(
             model.first_name.field.name,
             model.last_name.field.name,
         )
+
+
+class PictureWidget(django.forms.widgets.FileInput):
+    def render(self, name, value, attrs=None, **kwargs):
+        input_html = super().render(name, value, attrs=None, **kwargs)
+        if value:
+            image_tmb = django.utils.safestring.mark_safe(
+                f"<p class=text-center>{value.instance.image_tmb()}</p>",
+            )
+            return f"{image_tmb}{input_html}"
+        return input_html
 
 
 class ProfileChangeForm(django.forms.ModelForm, core.mixins.FormControlMixin):
@@ -62,6 +73,7 @@ class ProfileChangeForm(django.forms.ModelForm, core.mixins.FormControlMixin):
                     "type": "date",
                 },
             ),
+            model.image.field.name: PictureWidget,
         }
 
 

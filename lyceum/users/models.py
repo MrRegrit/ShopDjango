@@ -89,7 +89,7 @@ class Profile(django.db.models.Model):
     def image_tmb(self):
         if self.image:
             return django.utils.html.mark_safe(
-                f'<img src="{self.get_image_300x300().url}" width="50">',
+                f'<img src="{self.get_image_300x300().url}" width="150">',
             )
         return "Нет изображения"
 

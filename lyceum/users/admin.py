@@ -7,10 +7,19 @@ import users.models
 
 class InlineProfile(django.contrib.admin.TabularInline):
     model = users.models.Profile
+    fields = (
+        users.models.Profile.birthday.field.name,
+        users.models.Profile.image_tmb,
+        users.models.Profile.coffee_count.field.name,
+        users.models.Profile.attempts_count.field.name,
+        users.models.Profile.reactivate_time.field.name,
+    )
     readonly_fields = (
         users.models.Profile.birthday.field.name,
-        users.models.Profile.image.field.name,
+        users.models.Profile.image_tmb,
         users.models.Profile.coffee_count.field.name,
+        users.models.Profile.reactivate_time.field.name,
+        users.models.Profile.attempts_count.field.name,
     )
     can_delete = False
 

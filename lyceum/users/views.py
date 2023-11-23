@@ -5,6 +5,7 @@ import django.contrib.messages
 import django.contrib.sites.shortcuts
 import django.core.mail
 import django.shortcuts
+import django.utils.decorators
 import django.utils.timezone
 import django.views.generic
 
@@ -56,61 +57,69 @@ class SignUpView(
         return django.urls.reverse("users:signup")
 
 
-def activate(request, username):
-    user = django.shortcuts.get_object_or_404(
-        django.contrib.auth.models.User,
-        username=username,
-    )
-    if user.date_joined >= (
-        django.utils.timezone.now() - django.utils.timezone.timedelta(hours=12)
-    ):
-        user.is_active = True
-        user.save()
-        django.contrib.messages.success(
-            request,
-            "Вы успешно активировали аккаунт",
+class ActivateView(django.views.generic.RedirectView):
+    pattern_name = "users:login"
+
+    def get_redirect_url(self, *args, **kwargs):
+        user = django.shortcuts.get_object_or_404(
+            django.contrib.auth.models.User,
+            username=self.kwargs["username"],
         )
-        return django.shortcuts.redirect("users:login")
-    raise django.shortcuts.Http404
-
-
-def reactivate(request, username):
-    user = django.shortcuts.get_object_or_404(
-        django.contrib.auth.models.User,
-        username=username,
-    )
-    if user.profile.reactivate_time is not None:
-        if user.profile.reactivate_time >= (
+        if user.date_joined >= (
             django.utils.timezone.now()
-            - django.utils.timezone.timedelta(weeks=1)
+            - django.utils.timezone.timedelta(hours=12)
         ):
             user.is_active = True
             user.save()
             django.contrib.messages.success(
-                request,
-                "Вы успешно вернули статус активности вашему аккаунту",
+                self.request,
+                "Вы успешно активировали аккаунт",
             )
-            user.profile.reactivate_time = None
-            user.profile.save()
-            return django.shortcuts.redirect("users:login")
-    raise django.shortcuts.Http404
+            return super().get_redirect_url()
+        raise django.shortcuts.Http404
 
 
-def user_detail(request, pk):
-    template = "users/user_detail.html"
-    profile = django.shortcuts.get_object_or_404(
-        users.models.Profile.objects.select_related("user").only(
-            "birthday",
-            "image",
-            "coffee_count",
-            "user__email",
-            "user__last_name",
-            "user__first_name",
-        ),
-        user__pk=pk,
-    )
-    context = {"profile": profile}
-    return django.shortcuts.render(request, template, context)
+class ReactivateView(django.views.generic.RedirectView):
+    pattern_name = "users:login"
+
+    def get_redirect_url(self, *args, **kwargs):
+        user = django.shortcuts.get_object_or_404(
+            django.contrib.auth.models.User,
+            username=self.kwargs["username"],
+        )
+        if user.profile.reactivate_time is not None:
+            if user.profile.reactivate_time >= (
+                django.utils.timezone.now()
+                - django.utils.timezone.timedelta(weeks=1)
+            ):
+                user.is_active = True
+                user.save()
+                django.contrib.messages.success(
+                    self.request,
+                    "Вы успешно вернули статус активности вашему аккаунту",
+                )
+                user.profile.reactivate_time = None
+                user.profile.save()
+                return super().get_redirect_url()
+        raise django.shortcuts.Http404
+
+
+class UserDetailView(django.views.generic.DetailView):
+    model = django.contrib.auth.models.User
+    template_name = "users/user_detail.html"
+    context_object_name = "user"
+
+    def get_queryset(self):
+        related_name = users.models.Profile.user.field.related_query_name()
+
+        return users.models.User.objects.select_related("profile").only(
+            f"{related_name}__{users.models.Profile.birthday.field.name}",
+            f"{related_name}__{users.models.Profile.image.field.name}",
+            f"{related_name}__{users.models.Profile.coffee_count.field.name}",
+            self.model.email.field.name,
+            self.model.last_name.field.name,
+            self.model.first_name.field.name,
+        )
 
 
 class UserListView(django.views.generic.ListView):
@@ -123,43 +132,58 @@ class UserListView(django.views.generic.ListView):
             self.model.objects.filter(user__is_active=True)
             .select_related("user")
             .only(
-                "birthday",
-                "image",
-                "coffee_count",
-                "user__email",
-                "user__last_name",
-                "user__first_name",
+                self.model.birthday.field.name,
+                self.model.image.field.name,
+                self.model.coffee_count.field.name,
+                f"{self.model.user.field.name}__"
+                f"{django.contrib.auth.models.User.email.field.name}",
+                f"{self.model.user.field.name}__"
+                f"{django.contrib.auth.models.User.last_name.field.name}",
+                f"{self.model.user.field.name}__"
+                f"{django.contrib.auth.models.User.first_name.field.name}",
             )
         )
 
 
-@django.contrib.auth.decorators.login_required
-def profile(request):
-    template = "users/profile.html"
-    initial = {}
-    user_profile = request.user.profile
-    if not (user_profile.birthday is None):
-        initial["birthday"] = user_profile.birthday.strftime("%Y-%m-%d")
-    forms = (
-        users.forms.UserChangeForm(
-            request.POST or None,
-            instance=request.user,
-        ),
-        users.forms.ProfileChangeForm(
-            request.POST or None,
-            request.FILES or None,
-            initial=initial,
-            instance=user_profile,
-        ),
-    )
-    if request.method == "POST" and all(form.is_valid() for form in forms):
-        [form.save() for form in forms]
-        return django.shortcuts.redirect(
-            django.shortcuts.reverse("users:profile"),
-        )
+@django.utils.decorators.method_decorator(
+    django.contrib.auth.decorators.login_required,
+    name="dispatch",
+)
+class ProfileView(django.views.generic.TemplateView):
+    template_name = "users/profile.html"
 
-    context = {"forms": forms}
-    return django.shortcuts.render(request, template, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if "forms" not in context:
+            initial = {}
+            user_profile = self.request.user.profile
+            if not (user_profile.birthday is None):
+                initial["birthday"] = user_profile.birthday.strftime(
+                    "%Y-%m-%d",
+                )
+            forms = (
+                users.forms.UserChangeForm(
+                    self.request.POST or None,
+                    instance=self.request.user,
+                ),
+                users.forms.ProfileChangeForm(
+                    self.request.POST or None,
+                    self.request.FILES or None,
+                    initial=initial,
+                    instance=user_profile,
+                ),
+            )
+            context["forms"] = forms
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data()
+        if all(form.is_valid() for form in context["forms"]):
+            [form.save() for form in context["forms"]]
+            return django.shortcuts.redirect(
+                django.shortcuts.reverse("users:profile"),
+            )
+        return django.shortcuts.render(request, self.template_name, context)
 
 
 __all__ = []
