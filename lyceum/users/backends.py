@@ -55,7 +55,7 @@ class EmailOrUsernameModelBackend(django.contrib.auth.backends.ModelBackend):
                         args=[user.username],
                     )
                     url_to_confirm_register = (
-                        f"{current_site}{reverse_reactivate}"
+                        f"https://{current_site}{reverse_reactivate}"
                     )
                     django.core.mail.send_mail(
                         "Попытка взлома",

@@ -36,7 +36,7 @@ class SignUpView(
             "users:activate",
             args=[username],
         )
-        url_to_confirm_register = f"{current_site}{reverse_activate}"
+        url_to_confirm_register = f"https://{current_site}{reverse_activate}"
         django.core.mail.send_mail(
             "Активация аккаунта",
             f"Для активации вашего аккаунта перейдите по ссылке:"
