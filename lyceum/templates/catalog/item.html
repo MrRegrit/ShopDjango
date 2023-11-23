@@ -70,8 +70,11 @@
                            role="button">Удалить отзыв</a><br>
                     {% endif %}
                 {% endif %}
-
-
+                <p><a href="{% url "rating_statistics:item_statistics" item.id %}"
+                      class="card-link btn btn-outline-primary" role="button">
+                    {% trans "ItemStatisics" %}
+                </a>
+                </p>
             </div>
         </div>
     </div>

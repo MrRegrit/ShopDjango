@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-23 19:12+0700\n"
+"POT-Creation-Date: 2023-11-23 22:37+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,9 +47,13 @@ msgstr "Заголовок"
 msgid "NoContent"
 msgstr "Контента не будет("
 
+#: .\lyceum\templates\catalog\item.html:75
+msgid "ItemStatisics"
+msgstr "Статистика товара"
+
 #: .\lyceum\templates\catalog\item_list.html:16
 #: .\lyceum\templates\homepage\main.html:13
-#: .\lyceum\templates\users\user_list.html:44
+#: .\lyceum\templates\users\user_list.html:48
 msgid "List is empty"
 msgstr "Список пуст"
 
@@ -143,7 +147,7 @@ msgstr "Имя"
 msgid "Surname"
 msgstr "Фамилия"
 
-#: .\lyceum\templates\users\user_list.html:38
+#: .\lyceum\templates\users\user_list.html:40
 msgid "UserStatisics"
 msgstr "Статистика пользователя"
 
