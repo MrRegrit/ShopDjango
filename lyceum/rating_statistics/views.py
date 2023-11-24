@@ -7,7 +7,6 @@ import django.utils.decorators
 import django.utils.timezone
 import django.views.generic
 
-
 import catalog.models
 import rating.forms
 import rating.models
@@ -30,16 +29,21 @@ class UserStatistics(
 
         user_rating = rating.models.Rating.objects.user_rating(
             context["user"],
-        ).order_by(
+        )
+        queryset = user_rating.aggregate(
+            django.db.models.Avg(rating.models.Rating.evaluation.field.name),
+            django.db.models.Count(rating.models.Rating.evaluation.field.name),
+        )
+        context["average_rating"] = queryset[
+            f"{rating.models.Rating.evaluation.field.name}__avg"
+        ]
+        context["ratings_number"] = queryset[
+            f"{rating.models.Rating.evaluation.field.name}__count"
+        ]
+        context["best_item"] = user_rating.order_by(
             f"-{rating.models.Rating.evaluation.field.name}",
             f"-{rating.models.Rating.id.field.name}",
-        )
-
-        context["average_rating"] = user_rating.aggregate(
-            django.db.models.Avg(rating.models.Rating.evaluation.field.name),
-        )["evaluation__avg"]
-        context["ratings_number"] = user_rating.count()
-        context["best_item"] = user_rating.first()
+        ).first()
         context["worse_item"] = user_rating.order_by(
             rating.models.Rating.evaluation.field.name,
             f"-{rating.models.Rating.id.field.name}",
@@ -92,16 +96,22 @@ class ItemStatistics(
             item=context["item"],
         )
 
-        context["average_rating"] = item_rating.aggregate(
+        queryset = item_rating.aggregate(
             django.db.models.Avg(rating.models.Rating.evaluation.field.name),
-        )["evaluation__avg"]
-        context["ratings_number"] = item_rating.count()
+            django.db.models.Count(rating.models.Rating.evaluation.field.name),
+        )
+        context["average_rating"] = queryset[
+            f"{rating.models.Rating.evaluation.field.name}__avg"
+        ]
+        context["ratings_number"] = queryset[
+            f"{rating.models.Rating.evaluation.field.name}__count"
+        ]
         context["best_user"] = item_rating.order_by(
             f"-{rating.models.Rating.evaluation.field.name}",
             f"-{rating.models.Rating.id.field.name}",
         ).first()
         context["worse_user"] = item_rating.order_by(
-            f"{rating.models.Rating.evaluation.field.name}",
+            rating.models.Rating.evaluation.field.name,
             f"-{rating.models.Rating.id.field.name}",
         ).first()
 

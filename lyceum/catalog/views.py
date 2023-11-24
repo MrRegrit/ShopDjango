@@ -44,6 +44,13 @@ class ItemDetailView(
     def get_queryset(self):
         return self.model.objects.detail()
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -51,17 +58,19 @@ class ItemDetailView(
             item=context[self.context_object_name],
         ).only("image")
 
-        context["avg_ratings"] = rating.models.Rating.objects.filter(
+        queryset = rating.models.Rating.objects.filter(
             item=context[self.context_object_name],
         ).aggregate(
             django.db.models.Avg(rating.models.Rating.evaluation.field.name),
-        )[
+            django.db.models.Count(rating.models.Rating.evaluation.field.name),
+        )
+
+        context["avg_ratings"] = queryset[
             f"{rating.models.Rating.evaluation.field.name}__avg"
         ]
-
-        context["count_ratings"] = rating.models.Rating.objects.filter(
-            item=context[self.context_object_name],
-        ).count()
+        context["count_ratings"] = queryset[
+            f"{rating.models.Rating.evaluation.field.name}__count"
+        ]
 
         if self.request.user.is_authenticated:
             context["user_rating"] = (
