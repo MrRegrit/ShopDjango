@@ -13,7 +13,7 @@ def birthday_users(request):
             birthday__day=current_date.day,
             birthday__month=current_date.month,
         )
-        .values("user__first_name", "user__email")
+        .only("user__first_name", "user__email")
         .order_by("?")
     )
 
